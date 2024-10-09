@@ -1,0 +1,153 @@
+
+
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/14.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Add Services <i class="fa fa-chevron-right"></i></span></p>
+            <h1 class="mb-0 bread">View Services</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+		
+			<div class="container">
+				
+								
+								</div>
+								
+								</div>
+								
+				          
+								</div>
+								
+				          </div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<div class="col-md-10">
+									<div class="contact-wrap w-100 p-md-5 p-4">
+										<!-- <h3 class="mb-4">Add Services</h3> -->
+                    <!-- <div class="search-container">
+                      <form action="" method="post">
+                        {% csrf_token %}
+                        <input style="width: 500px;" type="text" name="search" placeholder="Search Bloodgroup/Organ Donor here" name="search">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                      </form>
+                    </div> -->
+                                        <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb">
+                                            <div class="overlay"></div>
+                                        <div class="container">
+                                            <div class="row d-md-flex justify-content-center">
+                                                <div class="col-md-12">
+                                                    <div class="wrap-appointment bg-white d-md-flex pl-md-4 pb-5 pb-md-0">
+                                                        <form action="" class="appointment w-100" method="post">
+                                                          {% csrf_token %}
+                                                            <div class="row justify-content-center">
+                                                                    <div class="col-12 col-md d-flex align-items-center pt-4 pt-md-0">
+                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
+                                                                            <!-- <label for="name">City</label> -->
+                                                              <!-- <input type="text" class="form-control" name="search" placeholder="Your Search goes here"> -->
+                                                            </div>
+                                                                    </div>
+                                                                    <div c lass="col-12 col-md d-flex align-items-center">
+                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
+                                                                            <!-- <label for="name">Phone number</label> --> 
+                                                               <!-- <input   type="text" class="form-control" placeholder="Phone number">  -->
+                                                            </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md d-flex align-items-center">
+                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
+                                                                            <label for="name">Select Services</label>
+                                                                        <div class="form-field">
+                                                                      <div class="select-wrap">
+                                                              <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                                              <select id="dept" name="search" class="form-control px-3 py-6">
+                                                                <option selected>Choose Services</option>
+                                                                {% for i in dept %}
+                                                                
+                                                                <option value="{{i.id}}">{{i.service_name}} </option>
+                                                            {% endfor %}
+                                                            </select>
+                                                            </div>
+                                                              </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md d-flex align-items-center pb-4 pb-md-0">
+                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
+                                                                           
+                                                                     <div class="col-12 col-md d-flex align-items-center align-items-stretch">
+                                                                        <div class="form-group py-md-2 py-2 px-2 px-md-0 d-flex align-items-stretch bg-primary">
+                                                              <input type="submit" value="Search" class="btn btn-primary py-2 px-2">
+                                                            </div>
+                                                                    </div>
+                                                            </div>
+                                                  </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section> 
+                                    <br>
+                                    <br>
+							
+                                        <section class="ftco-section ftco-no-pt">
+                                            <div class="container">
+                                                <div class="row">
+                                                  
+                                                    <div class="col-md-12 col-lg-3 pr-md-4 pb-lg-0 pb-4">
+                                                        <div class="heading-section ftco-animate text-center text-lg-left">
+                                              </div>
+                                                    </div>
+                                                    {% for i in services %}
+                                                    <div class="col-md-4 col-lg-3 ftco-animate d-flex">
+                                                        <div class="staff">
+                                                            <div class="img-wrap d-flex align-items-stretch">
+                                                                <div class="img align-self-stretch" style="background-image: url({{i.image.url}});"></div>
+                                                            </div>
+                                                            <div class="text pt-3 px-3 pb-4 text-center">
+                                                                <h3>{{i.name}}</h3>
+                                                                <!-- <h3>{{i.department.service_name}}</h3> -->
+
+                                                                <span class="position mb-2">{{i.department.service_name}}</span><br>
+
+                                                                <div class="form-group py-md-4 py-2 px-4 px-md-0 d-flex ">
+                                                                    <!-- <a href="requests?id={{i.id}}&id2={{i.servicer_id}}"><input type="" value="Send Requests" class="btn btn-success py-3 px-4"></a> -->
+                                                                    <a href="requestform?id={{i.id}}&id2={{i.servicer_id}}"><input type="" value="Send Requests" class="btn btn-success py-3 px-4"></a>
+
+                                                                  </div>
+                                                                <div class="faded">
+                                                                 
+                                                                    
+                                                  </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    {% endfor %}
+                                                </div>
+                                               
+                                            </div>
+                                        </section>
+                                
+									</div>
+								</div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+
+    
+	{% endblock %}
+
+  

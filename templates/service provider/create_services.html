@@ -1,0 +1,149 @@
+{% extends 'service provider/base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/13.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Registration Page<i class="fa fa-chevron-right"></i></span></p>
+            <h1 class="mb-0 bread">Workers Register Here</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+		
+		<!-- <section class="ftco-section bg-light"> -->
+			<!-- <div class="container"> -->
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+						<div class="wrapper">
+							<div class="row mb-5">
+								<div class="col-md-3">
+									<div class="dbox w-100 text-center">
+				        		
+				        		<div class="text">
+					          </div>
+				          </div>
+								</div>
+								
+								</div>
+								
+				          
+								</div>
+								
+				          </div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<div class="col-md-7">
+									<div class="contact-wrap w-100 p-md-5 p-4">
+										<h3 class="mb-4">Workers Register Here</h3>
+										<div id="form-message-warning" class="mb-4"></div> 
+					      		
+										<form method="POST" id="contactForm"  class="contactForm" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name"> Name</label>
+														<input type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required
+														>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name"> Email</label>
+														<input type="email" class="form-control" name="email" id="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required
+														>
+													</div>
+												</div>
+                                                <div class="col-md-12">
+													<div class="form-group">
+												<label class="label" for="dept">Department</label>
+												<!-- <span>Department</span> -->
+													
+													<select id="dept" name="dept" class="form-control px-3 py-6" required>
+														<option selected>Choose your Department</option>
+														{% for i in dept %}
+														
+														<option value="{{i.id}}">{{i.service_name}} </option>
+													{% endfor %}
+													</select>
+												</label>
+												</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="description">Description</label>
+														<input type="text" class="form-control" name="desc" id="myInput" placeholder="Description" onblur="validateInput()" required>
+													</div>
+												</div>
+                                                <div class="col-md-6"> 
+													<div class="form-group">
+														<label class="label" for="price">Price</label>
+														<input type="text" class="form-control" name="price" id="myInput" placeholder="Price" onblur="validateInput()" required>
+														
+													</div>
+												</div><div class="col-md-6"> 
+													<div class="form-group">
+														<label class="label" for="city">City</label>
+														<input type="text" class="form-control" name="city" id="myInput" placeholder="Enter your city" onblur="validateInput()" required>
+													</div>
+												</div>
+												
+
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="image">Upload Service Image</label>
+														<input type="file" class="form-control" name="image" id="image" placeholder="Experience" accept="image/x-png,image/gif,image/jpeg,image/jpg" required
+														>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="name"> Password</label>
+														<input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" pattern = "[0-9]).{1,}[a-z]).{1,}[A-Z]).{8,}" title="Eight or more characters" required >
+													</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="submit" value="Create Service" class="btn btn-primary">
+														<div class="submitting"></div>
+													</div>
+												</div>
+												
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-md-5 d-flex align-items-stretch">
+									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
+				          </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+		<script>
+			function validateInput() {
+				var input = document.getElementById('myInput');
+				if (input.value.trim() !== input.value) {
+					alert('Leading white space is not allowed!');
+					input.value = input.value.trim(); // Remove leading white space
+					input.focus(); // Set focus back to the input field
+				}
+			}
+		  </script>
+	  
+    
+	{% endblock %}
+
+  

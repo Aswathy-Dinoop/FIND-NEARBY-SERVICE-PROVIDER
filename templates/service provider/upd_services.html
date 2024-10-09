@@ -1,0 +1,123 @@
+{% extends 'service provider/base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/regi.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/servicer">Home <i class="fa fa-chevron-right"></i></a></span> <span>Registration Page<i class="fa fa-chevron-right"></i></span></p>
+            <h1 class="mb-0 bread">Workers Updation Profile</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+		
+		<!-- <section class="ftco-section bg-light"> -->
+			<!-- <div class="container"> -->
+				<div class="row justify-content-center">
+					<div class="col-md-12">
+						<div class="wrapper">
+							<div class="row mb-5">
+								<div class="col-md-3">
+									<div class="dbox w-100 text-center">
+				        		
+				        		<div class="text">
+					          </div>
+				          </div>
+								</div>
+								
+								</div>
+								
+				          
+								</div>
+								
+				          </div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<div class="col-md-7">
+									<div class="contact-wrap w-100 p-md-5 p-4">
+										<h3 class="mb-4">Update  Your Information</h3>
+										<div id="form-message-warning" class="mb-4"></div> 
+					      		
+										<form method="POST" id="contactForm" name="contactForm" class="contactForm" enctype="multipart/form-data">
+											{% csrf_token %}
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="name"> Name</label>
+														<input value="{{upd.name}}" disabled="True" type="text" class="form-control" name="name" id="name" placeholder="Name">
+													</div>
+												</div>
+                                                <div class="col-md-12">
+													<div class="form-group">
+												<label class="label" for="dept">Department</label>
+												<!-- <span>Department</span> -->
+													
+													<select id="dept" name="dept" class="form-control px-3 py-6">
+														<option selected>Choose your Department</option>
+														{% for i in dept %}
+														
+														<option  value="{{i.id}}">{{i.service_name}} </option>
+													{% endfor %}
+													</select>
+												</label>
+												</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="description">Description</label>
+														<input value="{{upd.description}}" type="text" class="form-control" name="desc" id="desc" placeholder="Description" onblur="validateInput()" >
+													</div>
+												</div>
+                                                <div class="col-md-6"> 
+													<div class="form-group">
+														<label class="label" for="price">Price</label>
+														<input value="{{upd.price}}" type="text" class="form-control" name="price" id="price" placeholder="Price" required>
+													</div>
+												</div><div class="col-md-6"> 
+													<div class="form-group">
+														<label class="label" for="city">City</label>
+														<input value="{{upd.city}}" type="text" class="form-control" name="city" id="city" placeholder="Enter your city" required>
+													</div>
+												</div>
+												
+
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="label" for="image">Upload Service Image</label>
+														<input value="{{upd.image}}" type="file" class="form-control" name="image" id="image" placeholder="Experience" required>
+													</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group">
+														<input type="submit" value="Update Service" class="btn btn-primary">
+														<div class="submitting"></div>
+													</div>
+												</div>
+												
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-md-5 d-flex align-items-stretch">
+									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
+				          </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+
+    
+	{% endblock %}
+
+  

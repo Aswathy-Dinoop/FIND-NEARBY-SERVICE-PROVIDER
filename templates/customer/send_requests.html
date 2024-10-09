@@ -1,0 +1,96 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/addser.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/customer">Home <i class="fa fa-chevron-right"></i></a></span> <span>Request Form <i class="fa fa-chevron-right"></i></span></p>
+            <h1 class="mb-0 bread">Request Form</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+		
+			<div class="container">
+				
+								
+								</div>
+								
+								</div>
+								
+				          
+								</div>
+								
+				          </div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<div class="col-md-7">
+									<div class="contact-wrap w-100 p-md-5 p-4">
+										<h3 class="mb-4">Request Form</h3>
+										<!-- <div id="form-message-warning" class="mb-4"></div>  -->
+					      		<!-- <div id="form-message-success" class="mb-4">
+					            Your message was sent, thank you!
+					      		</div> -->
+										<form action="" method="POST" id="contactForm" name="contactForm" class="contactForm">
+											{% csrf_token %}
+                                            <div class="row">
+												
+                                                <div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name">Worker Full Name</label>
+														<input value="{{upd.name}}" disabled="True" type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required>
+													</div>
+												</div>
+                                                <div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name">Service Type</label>
+														<input value="{{upd.department.service_name}}" disabled="True" type="text" class="form-control" name="name" id="name" placeholder="Add Service Name">
+													</div>
+												</div>
+                                                <div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name">Booking Date</label>
+														<input  type="date" class="form-control" name="bdate" id="dateInput" placeholder="Choose a date" required>
+													</div>
+												</div>
+                                                <div class="col-md-6">
+													<div class="form-group">
+														<label class="label" for="name">Booking Time</label>
+														<input  type="time" class="form-control" name="time" id="time" placeholder="Choose a time" required>
+													</div>
+												</div>
+												
+												<div class="col-md-12">
+													<div class="form-group">
+                                                       <input type="submit" value="Send Requests" class="btn btn-primary">
+														<div class="submitting"></div>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+								
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+        <script>
+            // Get today's date in the format YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Set the minimum date for the input field to today
+            document.getElementById('dateInput').min = today;
+          </script>
+    
+	{% endblock %}
+
+  

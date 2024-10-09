@@ -1,0 +1,120 @@
+{% extends "customer/base copy.html" %}
+{% load static %}
+{% block content %}
+{% if message %}
+<script>
+alert("{{ message }}")
+</script>
+{% endif %}
+
+    {% comment %} <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-5">
+            <a href="index.html">Home</a> <span class="mx-2 mb-0">/</span>
+            <strong class="text-black">Checkout</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+     {% endcomment %}
+<div class="container">
+    <h3 style="color:red">Payment through any cards are acceptable</h3>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-6 col-md-offset-4">
+            <div class="container">
+                <div class="panel-heading">
+                    <div class="row">
+                        <h3 class="text-center"></h3>
+                        <img class="img-responsive cc-img" src="http://prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
+                    </div>
+                </div>
+                <br><br>
+                <div class="container">
+                    <form method="post" action="{% url 'Chpayments' abc.id %}">
+                        	{% csrf_token %}
+                        <h4>Payable Amount:{{abc.amount}}</h4>
+                        <br>
+                        <div class="row">
+                            <div class="col-xl-12 col-md-7">
+                                <div class="form-group">
+                                    <label>CARD NUMBER</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="xxxx xxxx xxxx xxxx" required pattern="[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" />
+                                        <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-xs-10 col-md-7">
+                                <div class="form-group">
+                                  <!-- <label for="monthYear">Month and Year (MM/YYYY):</label> -->
+                                    <label  for="monthYear"><span class="visible-xs-inline">EXPIRATION </span> DATE</label>
+                                    <input type="text" class="form-control" placeholder="MM / YYYY" id="monthYear" placeholder="MM/YYYY" onchange="validateMonthYear()" required />
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                    <label>CV CODE</label>
+                                    <input type="tel" class="form-control" placeholder="xxx" pattern="[0-9]{3}" required />
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col-xl-12  col-md-7">
+                                <div class="form-group">
+                                    <label>CARD OWNER</label>
+                                    <input type="text" class="form-control" placeholder="Card Owner Names" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required />
+                                </div>
+                            </div>
+                        </div>
+                </div><br><br>
+                <div class="panel-footer">
+                    <div class="row">
+                        <a class="col-xl-12 col-md-7">
+                            <button class="btn btn-secondary btn-lg btn-block" type="submit" >Process payment</button></a></div>
+                        </div>
+                    </div>
+                </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cc-img {
+        margin: 0 auto;
+    }
+</style>
+<!-- Credit Card Payment Form - END -->
+<script>
+  function validateMonthYear() {
+      var monthYearInput = document.getElementById("monthYear").value;
+      var pattern = /^(0[1-9]|1[0-2])\/\d{4}$/;
+  
+      if (!pattern.test(monthYearInput)) {
+          alert("Invalid month and year format! Please enter in MM/YYYY format.");
+          return;
+      }
+  
+      var inputParts = monthYearInput.split('/');
+      var inputMonth = parseInt(inputParts[0], 10);
+      var inputYear = parseInt(inputParts[1], 10);
+      var currentDate = new Date();
+      var currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so we add 1
+  
+      if (inputYear < currentDate.getFullYear() || (inputYear === currentDate.getFullYear() && inputMonth < currentMonth)) {
+          alert("Past dates and years are not allowed!");
+          document.getElementById("monthYear").value = ''; // Clear input field if past date or year is entered
+      }
+  }
+  </script>
+</div>
+</div>
+
+  
+{% endblock %}

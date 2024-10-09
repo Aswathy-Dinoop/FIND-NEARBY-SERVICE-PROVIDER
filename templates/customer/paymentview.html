@@ -1,0 +1,85 @@
+
+
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/work-2.jpg' %}');" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-end">
+          <div class="col-md-9 ftco-animate pb-5">
+          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/customer">Home <i class="fa fa-chevron-right"></i></a></span> <span>My Payment<i class="fa fa-chevron-right"></i></span></p>
+            <h1 class="mb-0 bread">My Payment</h1>
+          </div>
+        </div>
+      </div>
+    </section>
+		
+			<div class="container">
+				
+								
+								</div>
+								
+								</div>
+								
+				          
+								</div>
+								
+				          </div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<div class="col-md-10">
+									<div class="contact-wrap w-100 p-md-5 p-4">
+										<h3 class="mb-4">My Payment</h3>
+		<div class="card">
+				
+				<div class="heading-elements">
+					
+				</div>
+			<div class="card-content collapse show">
+				
+				<div class="table-responsive">
+					<table class="table table-bordered mb-0">
+						<thead>
+							<tr>
+								
+								<th>Staff Name</th>
+                                <th>Which Services</th>
+                                
+                                <th>Service Provider Info</th>
+                                <th>Status</th>
+                                <th>Payment</th>
+                                
+								<!-- <th>Update/Remove</th> -->
+								
+                                
+                               
+							</tr>
+						</thead>
+						<tbody>
+                            {% for i in rqst %}
+							<tr>
+								<td>{{i.services.name}}</td>
+                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
+                                <td>{{i.services.department.service_name}}</td>
+                                <!-- <td>{{i.user.phone}}</td> -->
+                                <td>{{i.provider.name}}</td>
+                                <td>{{i.workstatus}}</td>
+								 <td><a href="{% url 'Paymentcheckout' i.id %}"><button class="btn-success">Pay</button></a> 
+                                <!-- <a style="margin-left: 10px;" href="Reject?id={{i.id}}"><button class="btn-danger">Reject</button></a> -->
+                                </td> 
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+				</div>
+			</div>
+	{% endblock %}
+
+  
