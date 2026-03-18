@@ -1,153 +1,296 @@
-
-
 {% extends 'customer/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/14.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Add Services <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">View Services</h1>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --bg-light: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+  }
+
+  .page-header {
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)),
+      url('https://images.unsplash.com/photo-1581578731548-c64695cc6958?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0 60px;
+    color: white;
+    text-align: center;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .page-header h1 {
+    font-weight: 800;
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+  }
+
+  .marketplace-section {
+    padding: 60px 0 100px;
+    background: var(--bg-light);
+    font-family: 'Inter', sans-serif;
+    min-height: 80vh;
+  }
+
+  /* Search & Filter Bar */
+  .search-filter-wrapper {
+    background: white;
+    padding: 25px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-top: -60px;
+    margin-bottom: 50px;
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .filter-form {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .filter-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+
+  .select-custom {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    font-weight: 500;
+    color: var(--text-main);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 18px;
+    transition: 0.3s;
+  }
+
+  .select-custom:focus {
+    border-color: var(--primary);
+    background-color: white;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+
+  .btn-search {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn-search:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  }
+
+  /* Service Cards Grid */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .service-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-img-wrapper {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+  }
+
+  .service-card:hover .card-img {
+    transform: scale(1.1);
+  }
+
+  .price-badge {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    color: var(--primary);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+  }
+
+  .card-body {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .category-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: #f5f3ff;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .worker-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  .btn-book {
+    width: 100%;
+    padding: 14px;
+    background: #f1f5f9;
+    color: var(--text-main);
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    text-align: center;
+    transition: 0.3s;
+    text-decoration: none;
+    margin-top: auto;
+    display: block;
+  }
+
+  .btn-book:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 10px 15px rgba(99, 102, 241, 0.2);
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 40px;
+    color: var(--text-muted);
+  }
+
+  .empty-state i {
+    font-size: 4rem;
+    opacity: 0.1;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Find Local Professionals</h1>
+    <p>Discover top-rated experts for all your home and business needs.</p>
+  </div>
+</div>
+
+<div class="marketplace-section">
+  <div class="container">
+    <!-- Search & Filter -->
+    <div class="search-filter-wrapper">
+      <form action="" method="post" class="filter-form">
+        {% csrf_token %}
+        <div class="filter-group">
+          <label>Service Category</label>
+          <select name="search" class="select-custom" required>
+            <option value="" disabled selected>Select a service to browse...</option>
+            {% for i in dept %}
+            <option value="{{i.id}}">{{i.service_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" class="btn-search">
+          <i class="fa fa-search"></i> Find Experts
+        </button>
+      </form>
+    </div>
+
+    <!-- Service Grid -->
+    <div class="service-grid">
+      {% for i in services %}
+      <div class="service-card">
+        <div class="card-img-wrapper">
+          <img src="{{i.image.url}}" class="card-img" alt="{{i.name}}">
+          <div class="price-badge">₹{{i.price}}</div>
+        </div>
+        <div class="card-body">
+          <span class="category-tag">{{i.department.service_name}}</span>
+          <h3 class="worker-name">{{i.name}}</h3>
+
+          <div style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">
+            <i class="fa fa-map-marker mr-1" color="#6366f1"></i> {{i.city}}
           </div>
+
+          <a href="requestform?id={{i.id}}&id2={{i.servicer_id}}" class="btn-book">
+            View & Book Now
+          </a>
         </div>
       </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<!-- <h3 class="mb-4">Add Services</h3> -->
-                    <!-- <div class="search-container">
-                      <form action="" method="post">
-                        {% csrf_token %}
-                        <input style="width: 500px;" type="text" name="search" placeholder="Search Bloodgroup/Organ Donor here" name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
-                      </form>
-                    </div> -->
-                                        <section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb">
-                                            <div class="overlay"></div>
-                                        <div class="container">
-                                            <div class="row d-md-flex justify-content-center">
-                                                <div class="col-md-12">
-                                                    <div class="wrap-appointment bg-white d-md-flex pl-md-4 pb-5 pb-md-0">
-                                                        <form action="" class="appointment w-100" method="post">
-                                                          {% csrf_token %}
-                                                            <div class="row justify-content-center">
-                                                                    <div class="col-12 col-md d-flex align-items-center pt-4 pt-md-0">
-                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
-                                                                            <!-- <label for="name">City</label> -->
-                                                              <!-- <input type="text" class="form-control" name="search" placeholder="Your Search goes here"> -->
-                                                            </div>
-                                                                    </div>
-                                                                    <div c lass="col-12 col-md d-flex align-items-center">
-                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
-                                                                            <!-- <label for="name">Phone number</label> --> 
-                                                               <!-- <input   type="text" class="form-control" placeholder="Phone number">  -->
-                                                            </div>
-                                                                    </div>
-                                                                    <div class="col-12 col-md d-flex align-items-center">
-                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
-                                                                            <label for="name">Select Services</label>
-                                                                        <div class="form-field">
-                                                                      <div class="select-wrap">
-                                                              <div class="icon"><span class="fa fa-chevron-down"></span></div>
-                                                              <select id="dept" name="search" class="form-control px-3 py-6">
-                                                                <option selected>Choose Services</option>
-                                                                {% for i in dept %}
-                                                                
-                                                                <option value="{{i.id}}">{{i.service_name}} </option>
-                                                            {% endfor %}
-                                                            </select>
-                                                            </div>
-                                                              </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    <div class="col-12 col-md d-flex align-items-center pb-4 pb-md-0">
-                                                                        <div class="form-group py-md-4 py-2 px-4 px-md-0">
-                                                                           
-                                                                     <div class="col-12 col-md d-flex align-items-center align-items-stretch">
-                                                                        <div class="form-group py-md-2 py-2 px-2 px-md-0 d-flex align-items-stretch bg-primary">
-                                                              <input type="submit" value="Search" class="btn btn-primary py-2 px-2">
-                                                            </div>
-                                                                    </div>
-                                                            </div>
-                                                  </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section> 
-                                    <br>
-                                    <br>
-							
-                                        <section class="ftco-section ftco-no-pt">
-                                            <div class="container">
-                                                <div class="row">
-                                                  
-                                                    <div class="col-md-12 col-lg-3 pr-md-4 pb-lg-0 pb-4">
-                                                        <div class="heading-section ftco-animate text-center text-lg-left">
-                                              </div>
-                                                    </div>
-                                                    {% for i in services %}
-                                                    <div class="col-md-4 col-lg-3 ftco-animate d-flex">
-                                                        <div class="staff">
-                                                            <div class="img-wrap d-flex align-items-stretch">
-                                                                <div class="img align-self-stretch" style="background-image: url({{i.image.url}});"></div>
-                                                            </div>
-                                                            <div class="text pt-3 px-3 pb-4 text-center">
-                                                                <h3>{{i.name}}</h3>
-                                                                <!-- <h3>{{i.department.service_name}}</h3> -->
+      {% empty %}
+      <div class="empty-state">
+        <i class="fa fa-search"></i>
+        <h3>No Experts Found</h3>
+        <p>Try selecting a different category or search term to see more results.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-                                                                <span class="position mb-2">{{i.department.service_name}}</span><br>
-
-                                                                <div class="form-group py-md-4 py-2 px-4 px-md-0 d-flex ">
-                                                                    <!-- <a href="requests?id={{i.id}}&id2={{i.servicer_id}}"><input type="" value="Send Requests" class="btn btn-success py-3 px-4"></a> -->
-                                                                    <a href="requestform?id={{i.id}}&id2={{i.servicer_id}}"><input type="" value="Send Requests" class="btn btn-success py-3 px-4"></a>
-
-                                                                  </div>
-                                                                <div class="faded">
-                                                                 
-                                                                    
-                                                  </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                   
-                                                    {% endfor %}
-                                                </div>
-                                               
-                                            </div>
-                                        </section>
-                                
-									</div>
-								</div>
-								
-								</div>
-							</div>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</section>
-
-    
-	{% endblock %}
-
-  
+{% endblock %}

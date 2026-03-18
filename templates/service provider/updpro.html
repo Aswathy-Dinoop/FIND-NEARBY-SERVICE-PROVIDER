@@ -1,165 +1,297 @@
 {% extends 'service provider/base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('https://png.pngtree.com/background/20220718/original/pngtree-register-now-blue-banner-picture-image_1661529.jpg');" data-stellar-background-ratio="0.5">
-      <!-- <div class="overlay"></div> -->
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Update Profile<i class="fa fa-chevron-right"></i></span></p>
-            <h1 style="color: black;" class="mb-0 bread">Service Provider Profile Updation</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-		<!-- <section class="ftco-section bg-light"> -->
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<div class="col-md-12">
-						<div class="wrapper">
-							<div class="row mb-5">
-								<div class="col-md-3">
-									<div class="dbox w-100 text-center">
-				        		
-				        		<div class="text">
-					          </div>
-				          </div>
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+	:root {
+		--primary-gradient: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+		--glass-bg: rgba(255, 255, 255, 0.95);
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)),
+			url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.2rem;
+		margin-bottom: 10px;
+		letter-spacing: -1px;
+	}
+
+	.update-section {
+		padding: 80px 0;
+		background: #f8fafc;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.form-container {
+		max-width: 900px;
+		margin: 0 auto;
+		background: white;
+		border-radius: 32px;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+		overflow: hidden;
+		display: flex;
+		animation: fadeInUp 0.8s ease-out;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.form-sidebar {
+		flex: 0.8;
+		background: var(--primary-gradient);
+		padding: 60px 40px;
+		color: white;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+
+	@media (min-width: 992px) {
+		.form-sidebar {
+			display: flex;
+		}
+	}
+
+	.current-profile-preview {
+		margin-bottom: 30px;
+	}
+
+	.preview-img {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		border: 4px solid rgba(255, 255, 255, 0.3);
+		object-fit: cover;
+		margin-bottom: 15px;
+	}
+
+	.form-main {
+		flex: 1.2;
+		padding: 60px;
+	}
+
+	.form-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 25px;
+	}
+
+	.full-width {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 768px) {
+		.form-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.full-width {
+			grid-column: span 1;
+		}
+
+		.form-main {
+			padding: 40px 25px;
+		}
+	}
+
+	.input-group-premium {
+		margin-bottom: 5px;
+	}
+
+	.input-group-premium label {
+		display: block;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.input-wrapper i {
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #94a3b8;
+		transition: 0.3s;
+	}
+
+	.form-control-premium {
+		width: 100%;
+		padding: 14px 20px 14px 50px;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		font-size: 0.95rem;
+		color: var(--text-main);
+		background: #f8fafc;
+		transition: all 0.3s;
+	}
+
+	.form-control-premium:focus {
+		border-color: #0ea5e9;
+		background: white;
+		box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+		outline: none;
+	}
+
+	.form-control-premium:disabled {
+		background: #f1f5f9;
+		color: #94a3b8;
+		cursor: not-allowed;
+	}
+
+	.form-control-premium:focus+i {
+		color: #0ea5e9;
+	}
+
+	.file-input-box {
+		border: 2px dashed #cbd5e1;
+		border-radius: 12px;
+		padding: 15px;
+		background: #f8fafc;
+		transition: 0.3s;
+	}
+
+	.file-input-box:hover {
+		border-color: #0ea5e9;
+		background: #f0f9ff;
+	}
+
+	.btn-update-premium {
+		width: 100%;
+		padding: 16px;
+		background: var(--primary-gradient);
+		color: white;
+		border: none;
+		border-radius: 14px;
+		font-weight: 700;
+		font-size: 1.05rem;
+		cursor: pointer;
+		transition: all 0.3s;
+		margin-top: 25px;
+		box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+	}
+
+	.btn-update-premium:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 30px -5px rgba(14, 165, 233, 0.5);
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Account Settings</h1>
+		<p>Keep your professional profile up to date to maintain trust with your clients.</p>
+	</div>
+</div>
+
+<section class="update-section">
+	<div class="container">
+		<div class="form-container">
+			<!-- Sidebar Info -->
+			<div class="form-sidebar">
+				<div class="current-profile-preview">
+					<img src="/media/{{upd.image}}" class="preview-img" alt="Profile">
+					<h3 style="font-weight: 700;">{{upd.name}}</h3>
+					<span style="opacity: 0.8; font-size: 0.9rem;">Service Partner</span>
+				</div>
+				<div style="text-align: left; margin-top: 20px;">
+					<p style="font-size: 0.9rem; line-height: 1.6;"><i class="fa fa-info-circle mr-2"></i> Ensure your
+						contact details are accurate so clients can reach you easily.</p>
+				</div>
+			</div>
+
+			<!-- Main Form -->
+			<div class="form-main">
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-grid">
+						<!-- Name (Read Only) -->
+						<div class="input-group-premium">
+							<label>Full Name</label>
+							<div class="input-wrapper">
+								<input type="text" class="form-control-premium" value="{{upd.name}}" disabled>
+								<i class="fa fa-user"></i>
 							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Update Profile</h3>
-										<div id="form-message-warning" class="mb-4"></div> 
-					      		
-										<form method="POST" id="contactForm" name="contactForm" class="contactForm" enctype="multipart/form-data">
-											{% csrf_token %}
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Full Name</label>
-														<input value="{{upd.name}}" type="text" disabled="True" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required>
-													</div>
-												</div>
-												<div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="email">Email Address</label>
-														<input value="{{upd.email}}" type="email" disabled="True" class="form-control" name="email" id="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="number">Contact Number</label>
-														<input value="{{upd.number}}" type="text" class="form-control" name="number" id="number" placeholder="Contact Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" pattern="[6-9]{1}[0-9]{5}[0-9]{4}" title="Enter 10 digit number" required>
-													</div>
-												</div>
-												<!-- <div class="col-md-12">
-													<div class="form-group">
-												<label class="label" for="subject">Department</label>
-												<span>Department</span>
-													
-													<select id="dept" name="dept" >
-														<option selected>Choose your Department</option>
-														{% for i in dept %}
-														
-														<option value="{{i.id}}">{{i.department}} </option>
-													{% endfor %}
-													</select>
-												</label>
-												</div>
-												</div> -->
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="image">Image</label>
-														<input value="{{upd.image}}" type="file" class="form-control" name="image" id="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="regnum">Registration Number</label>
-														<input value="{{upd.regnum}}"type="text" disabled="True" class="form-control" name="regnum" id="myInput" placeholder="Enter Your Service Number" onblur="validateInput()" required>
-													</div>
-												</div>
-												<!-- <div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="district">District</label>
+						</div>
 
-														<select id="district" name="district" class="form-control px-3 py-6" required>
-															<option value="" disabled selected>Select District</option>
-															
-															<option value="Trivandrum">Trivandrum</option>
-															<option value="Kollam">Kollam</option>
-															<option value="Pathanamthitta">Pathanamthitta</option>
-															<option value="Alappuzha">Alappuzha</option>
-															<option value="Kottayam">Kottayam</option>
-															<option value="Idukki">Idukki</option>
-															<option value="Ernakulam">Ernakulam</option>
-															<option value="Thrissur">Thrissur</option>
-															<option value="Palakkad">Palakkad</option>
-															<option value="Malappuram">Malappuram</option>
-															<option value="Kozhikode">Kozhikode</option>
-															<option value="Wayanad">Wayanad</option>
-															<option value="Kannur">Kannur</option>
-															<option value="Kasaragod">Kasaragod</option>
-												
-														  </select>
-													</div>
-												</div> -->
-												<!-- <div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="address">Password</label>
-														<input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" pattern = "[0-9]).{1,}[a-z]).{1,}[A-Z]).{8,}" title="Eight or more characters" required>
-													</div>
-												</div> -->
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Update Your Profile" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-												
-											</div>
-										</form>
-									</div>
-								</div>
-								<div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
-				          </div>
-								</div>
+						<!-- Email (Read Only) -->
+						<div class="input-group-premium">
+							<label>Email Address</label>
+							<div class="input-wrapper">
+								<input type="email" class="form-control-premium" value="{{upd.email}}" disabled>
+								<i class="fa fa-envelope"></i>
+							</div>
+						</div>
+
+						<!-- Contact Number -->
+						<div class="input-group-premium full-width">
+							<label>Contact Phone Number</label>
+							<div class="input-wrapper">
+								<input type="text" class="form-control-premium" name="number" value="{{upd.phone}}"
+									placeholder="10 Digit Number" pattern="[6-9]{1}[0-9]{9}" required>
+								<i class="fa fa-phone"></i>
+							</div>
+						</div>
+
+						<!-- Registration Number (Editable because backend expects it) -->
+						<div class="input-group-premium full-width">
+							<label>License / Registration No.</label>
+							<div class="input-wrapper">
+								<input type="text" class="form-control-premium" name="regnum" value="{{upd.regnum}}"
+									required>
+								<i class="fa fa-id-card-o"></i>
+							</div>
+						</div>
+
+						<!-- New Profile Photo -->
+						<div class="input-group-premium full-width">
+							<label>Update Profile Photo</label>
+							<div class="file-input-box">
+								<input type="file" name="image" accept="image/*" required
+									style="width: 100%; border: none;">
+								<p style="font-size: 0.8rem; color: #64748b; margin-top: 8px;">Upload a professional
+									face photo (JPG, PNG)</p>
 							</div>
 						</div>
 					</div>
-					
-				</div>
+
+					<button type="submit" class="btn-update-premium">
+						<i class="fa fa-refresh mr-2"></i> Save Profile Changes
+					</button>
+				</form>
 			</div>
-		</section>
-		<script>
-			function validateInput() {
-				var input = document.getElementById('myInput');
-				if (input.value.trim() !== input.value) {
-					alert('Leading white space is not allowed!');
-					input.value = input.value.trim(); // Remove leading white space
-					input.focus(); // Set focus back to the input field
-				}
-			}
-		  </script>
+		</div>
+	</div>
+</section>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

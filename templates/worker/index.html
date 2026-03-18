@@ -1,23 +1,167 @@
 {% extends 'worker/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_1.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-6 ftco-animate">
-<!--          	<h2 class="subheading">Leave the house cleaning chores to us</h2>-->
-          	<h1 class="mb-4">Welcome {{request.user.first_name}}</h1>
-<!--            <p><a href="#" class="btn btn-primary mr-md-4 py-2 px-4">Learn more <span class="ion-ios-arrow-forward"></span></a></p>-->
-          </div>
-        </div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
+
+  .worker-hero {
+    background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)),
+    url('{% static "images/bg_1.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0 80px;
+    color: white;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .welcome-badge {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: -60px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .icon-blue {
+    background: #eff6ff;
+    color: #3b82f6;
+  }
+
+  .icon-green {
+    background: #ecfdf5;
+    color: #10b981;
+  }
+
+  .icon-orange {
+    background: #fffbeb;
+    color: #f59e0b;
+  }
+
+  .stat-info h4 {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    color: #1e293b;
+    font-size: 1.2rem;
+  }
+
+  .stat-info p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+
+  .action-section {
+    padding: 100px 0;
+    background: #f8fafc;
+    text-align: center;
+  }
+
+  .action-card {
+    background: white;
+    border-radius: 32px;
+    padding: 50px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>
+
+<div class="worker-hero">
+  <div class="container text-center">
+    <span class="welcome-badge"><i class="fa fa-briefcase mr-2"></i> Professional Dashboard</span>
+    <h1 style="color: white; font-size: 4rem; font-weight: 800; margin-bottom: 20px;">Welcome Back, {{request.user.first_name}}</h1>
+    <p style="font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto 40px;">Manage your daily tasks, track
+      your completed works, and review client feedback all from one place.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stats-grid">
+    <a href="view_works" class="stat-card">
+      <div class="stat-icon icon-blue">
+        <i class="fa fa-tasks"></i>
       </div>
+      <div class="stat-info">
+        <h4>Active Tasks</h4>
+        <p>Manage your current work queue</p>
+      </div>
+    </a>
+
+    <a href="completed" class="stat-card">
+      <div class="stat-icon icon-green">
+        <i class="fa fa-check-circle"></i>
+      </div>
+      <div class="stat-info">
+        <h4>Completed</h4>
+        <p>Review work history and payments</p>
+      </div>
+    </a>
+
+    <a href="viewfb" class="stat-card">
+      <div class="stat-icon icon-orange">
+        <i class="fa fa-star"></i>
+      </div>
+      <div class="stat-info">
+        <h4>Feedbacks</h4>
+        <p>Read what clients say about you</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<section class="action-section">
+  <div class="container">
+    <div class="action-card">
+      <i class="fa fa-info-circle fa-3x" style="color: #6366f1; margin-bottom: 20px; opacity: 0.3;"></i>
+      <h2 style="font-weight: 800; color: #1e293b;">Your Service Impact</h2>
+      <p style="color: #64748b; font-size: 1.1rem; line-height: 1.8;">As a dedicated service professional, you are the
+        face of our platform. Providing high-quality work and maintaining professional communication with clients helps
+        you rank higher and receive more assignments.</p>
     </div>
-
-	  
-
-   
+  </div>
+</section>
 
 {% endblock %}
-
-    

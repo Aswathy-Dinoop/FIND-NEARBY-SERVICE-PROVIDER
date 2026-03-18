@@ -2,148 +2,360 @@
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/13.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Registration Page<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Workers Register Here</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-		<!-- <section class="ftco-section bg-light"> -->
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<div class="col-md-12">
-						<div class="wrapper">
-							<div class="row mb-5">
-								<div class="col-md-3">
-									<div class="dbox w-100 text-center">
-				        		
-				        		<div class="text">
-					          </div>
-				          </div>
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Workers Register Here</h3>
-										<div id="form-message-warning" class="mb-4"></div> 
-					      		
-										<form method="POST" id="contactForm"  class="contactForm" enctype="multipart/form-data">
-											{% csrf_token %}
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name"> Name</label>
-														<input type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required
-														>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name"> Email</label>
-														<input type="email" class="form-control" name="email" id="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required
-														>
-													</div>
-												</div>
-                                                <div class="col-md-12">
-													<div class="form-group">
-												<label class="label" for="dept">Department</label>
-												<!-- <span>Department</span> -->
-													
-													<select id="dept" name="dept" class="form-control px-3 py-6" required>
-														<option selected>Choose your Department</option>
-														{% for i in dept %}
-														
-														<option value="{{i.id}}">{{i.service_name}} </option>
-													{% endfor %}
-													</select>
-												</label>
-												</div>
-												</div>
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="description">Description</label>
-														<input type="text" class="form-control" name="desc" id="myInput" placeholder="Description" onblur="validateInput()" required>
-													</div>
-												</div>
-                                                <div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="price">Price</label>
-														<input type="text" class="form-control" name="price" id="myInput" placeholder="Price" onblur="validateInput()" required>
-														
-													</div>
-												</div><div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="city">City</label>
-														<input type="text" class="form-control" name="city" id="myInput" placeholder="Enter your city" onblur="validateInput()" required>
-													</div>
-												</div>
-												
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="image">Upload Service Image</label>
-														<input type="file" class="form-control" name="image" id="image" placeholder="Experience" accept="image/x-png,image/gif,image/jpeg,image/jpg" required
-														>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="name"> Password</label>
-														<input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" pattern = "[0-9]).{1,}[a-z]).{1,}[A-Z]).{8,}" title="Eight or more characters" required >
-													</div>
-												</div>
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Create Service" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-												
-											</div>
-										</form>
-									</div>
-								</div>
-								<div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
-				          </div>
-								</div>
+	:root {
+		--primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+		--glass-bg: rgba(255, 255, 255, 0.95);
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)),
+			url('https://images.unsplash.com/photo-1581092918056-0c4c3acd374a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 15px;
+		letter-spacing: -1px;
+	}
+
+	.page-header p {
+		font-size: 1.2rem;
+		opacity: 0.9;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.creation-section {
+		padding: 80px 0;
+		background: #f8fafc;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.form-container {
+		max-width: 1000px;
+		margin: 0 auto;
+		background: white;
+		border-radius: 32px;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+		overflow: hidden;
+		display: flex;
+		animation: fadeInUp 0.8s ease-out;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.form-sidebar {
+		flex: 1;
+		background: var(--primary-gradient);
+		padding: 60px 40px;
+		color: white;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	@media (min-width: 992px) {
+		.form-sidebar {
+			display: flex;
+		}
+	}
+
+	.form-sidebar h2 {
+		font-weight: 700;
+		margin-bottom: 25px;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.info-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 20px;
+		margin-bottom: 30px;
+	}
+
+	.info-icon {
+		width: 44px;
+		height: 44px;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		font-size: 1.2rem;
+	}
+
+	.form-main {
+		flex: 1.5;
+		padding: 60px;
+	}
+
+	.form-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 24px;
+	}
+
+	.full-width {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 768px) {
+		.form-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.full-width {
+			grid-column: span 1;
+		}
+
+		.form-main {
+			padding: 40px 25px;
+		}
+	}
+
+	.input-group-premium {
+		margin-bottom: 5px;
+	}
+
+	.input-group-premium label {
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 10px;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.input-wrapper i {
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #94a3b8;
+		transition: 0.3s;
+	}
+
+	.form-control-premium {
+		width: 100%;
+		padding: 15px 20px 15px 50px;
+		border: 2px solid #e2e8f0;
+		border-radius: 14px;
+		font-size: 1rem;
+		color: var(--text-main);
+		background: #f8fafc;
+		transition: all 0.3s;
+	}
+
+	.form-control-premium:focus {
+		border-color: #6366f1;
+		background: white;
+		box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+		outline: none;
+	}
+
+	.form-control-premium:focus+i {
+		color: #6366f1;
+	}
+
+	.btn-submit-premium {
+		width: 100%;
+		padding: 18px;
+		background: var(--primary-gradient);
+		color: white;
+		border: none;
+		border-radius: 16px;
+		font-weight: 700;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: all 0.3s;
+		margin-top: 20px;
+		box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+	}
+
+	.btn-submit-premium:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.5);
+	}
+
+	.file-upload-wrapper {
+		border: 2px dashed #cbd5e1;
+		border-radius: 14px;
+		padding: 20px;
+		text-align: center;
+		background: #f8fafc;
+		cursor: pointer;
+		transition: 0.3s;
+	}
+
+	.file-upload-wrapper:hover {
+		border-color: #6366f1;
+		background: #f5f3ff;
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Add New Service</h1>
+		<p>Expand your business reach by listing a new professional service on our platform.</p>
+	</div>
+</div>
+
+<section class="creation-section">
+	<div class="container">
+		<div class="form-container">
+			<!-- Sidebar Info -->
+			<div class="form-sidebar">
+				<h2>Why List With Us?</h2>
+				<div class="info-item">
+					<div class="info-icon"><i class="fa fa-rocket"></i></div>
+					<div>
+						<h4>Instant Visibility</h4>
+						<p style="font-size: 0.9rem; opacity: 0.8;">Reach thousands of local customers immediately after
+							approval.</p>
+					</div>
+				</div>
+				<div class="info-item">
+					<div class="info-icon"><i class="fa fa-shield"></i></div>
+					<div>
+						<h4>Verified Platform</h4>
+						<p style="font-size: 0.9rem; opacity: 0.8;">Build trust with our verified badge and customer
+							review system.</p>
+					</div>
+				</div>
+				<div class="info-item">
+					<div class="info-icon"><i class="fa fa-money"></i></div>
+					<div>
+						<h4>Flexible Pricing</h4>
+						<p style="font-size: 0.9rem; opacity: 0.8;">Set your own rates and manage your service
+							availability.</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Form Section -->
+			<div class="form-main">
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-grid">
+						<!-- Service Name -->
+						<div class="input-group-premium">
+							<label>Service/Worker Name</label>
+							<div class="input-wrapper">
+								<input type="text" class="form-control-premium" name="name"
+									placeholder="Expert Electrical Fix" required>
+								<i class="fa fa-briefcase"></i>
+							</div>
+						</div>
+
+						<!-- Email -->
+						<div class="input-group-premium">
+							<label>Service Email</label>
+							<div class="input-wrapper">
+								<input type="email" class="form-control-premium" name="email"
+									placeholder="service@provider.com" required>
+								<i class="fa fa-envelope"></i>
+							</div>
+						</div>
+
+						<!-- Department -->
+						<div class="input-group-premium full-width">
+							<label>Service Category</label>
+							<div class="input-wrapper">
+								<select name="dept" class="form-control-premium" style="appearance: none;" required>
+									<option value="" disabled selected>Select a category</option>
+									{% for i in dept %}
+									<option value="{{i.id}}">{{i.service_name}}</option>
+									{% endfor %}
+								</select>
+								<i class="fa fa-tags"></i>
+							</div>
+						</div>
+
+						<!-- Description -->
+						<div class="input-group-premium full-width">
+							<label>Detailed Description</label>
+							<div class="input-wrapper">
+								<textarea class="form-control-premium" name="desc" rows="3"
+									placeholder="Tell customers what makes your service stand out..."
+									style="padding-left: 18px; height: auto;" required></textarea>
+							</div>
+						</div>
+
+						<!-- Price -->
+						<div class="input-group-premium">
+							<label>Starting Price (₹)</label>
+							<div class="input-wrapper">
+								<input type="number" class="form-control-premium" name="price" placeholder="499"
+									required>
+								<i class="fa fa-money"></i>
+							</div>
+						</div>
+
+						<!-- City -->
+						<div class="input-group-premium">
+							<label>Service City</label>
+							<div class="input-wrapper">
+								<input type="text" class="form-control-premium" name="city" placeholder="e.g. Kozhikode"
+									required>
+								<i class="fa fa-map-marker"></i>
+							</div>
+						</div>
+
+						<!-- Image -->
+						<div class="input-group-premium full-width">
+							<label>Service Showcase Image</label>
+							<div class="file-upload-wrapper">
+								<input type="file" name="image" accept="image/*" required
+									style="width: 100%; border: none;">
+								<p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Upload a high-quality
+									photo of your work or team (JPG, PNG)</p>
+							</div>
+						</div>
+
+						<!-- Password -->
+						<div class="input-group-premium full-width">
+							<label>Account Password</label>
+							<div class="input-wrapper">
+								<input type="password" class="form-control-premium" name="password"
+									placeholder="••••••••" required minlength="8">
+								<i class="fa fa-lock"></i>
 							</div>
 						</div>
 					</div>
-					
-				</div>
-			</div>
-		</section>
-		<script>
-			function validateInput() {
-				var input = document.getElementById('myInput');
-				if (input.value.trim() !== input.value) {
-					alert('Leading white space is not allowed!');
-					input.value = input.value.trim(); // Remove leading white space
-					input.focus(); // Set focus back to the input field
-				}
-			}
-		  </script>
-	  
-    
-	{% endblock %}
 
-  
+					<button type="submit" class="btn-submit-premium">Create Service Listing</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

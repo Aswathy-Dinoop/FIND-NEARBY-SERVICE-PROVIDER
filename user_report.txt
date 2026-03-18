@@ -1,0 +1,1 @@
+Username: 'admin', Email: 'admin@gmail.com', is_superuser: True, is_staff: True, last_name: ''

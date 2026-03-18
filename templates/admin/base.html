@@ -1,117 +1,300 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>On Demand-App Services </title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-    
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+<head>
+	<title>City-360 Admin Dashboard</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
-  	<!-- <div class="wrap">
-			<div class="container">
-				<div class="row justify-content-between">
-						<div class="col-12 col-md d-flex align-items-center">
-							<p class="mb-0 phone"><span class="mailus">Phone no:</span> <a href="#">+00 1234 567</a> or <span class="mailus">email us:</span> <a href="#">emailsample@email.com</a></p>
-						</div>
-						<div class="col-12 col-md d-flex justify-content-md-end">
-							<div class="social-media">
-				    		<p class="mb-0 d-flex">
-				    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-				    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-				    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-				    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
-				    		</p>
-			        </div>
-						</div>
-				</div>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+	<style>
+		:root {
+			--sidebar-bg: #1e293b;
+			--sidebar-hover: #334155;
+			--header-bg: #1e293b;
+			--accent-orange: #ff9800;
+			--bg-light: #f1f5f9;
+			--text-main: #333;
+			--text-muted: #64748b;
+		}
+
+		body {
+			background: var(--bg-light);
+			color: var(--text-main);
+			font-family: 'Inter', sans-serif;
+			overflow-x: hidden;
+		}
+
+		/* Sidebar Styling */
+		#sidebar {
+			width: 250px;
+			height: 100vh;
+			background: var(--sidebar-bg);
+			position: fixed;
+			left: 0;
+			top: 0;
+			color: white;
+			z-index: 1001;
+			transition: 0.3s;
+		}
+
+		.user-profile-sidebar {
+			padding: 30px 20px;
+			background: rgba(0, 0, 0, 0.1);
+			text-align: center;
+		}
+
+		.user-profile-sidebar img {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			border: 3px solid rgba(255, 255, 255, 0.1);
+			margin-bottom: 10px;
+		}
+
+		.user-profile-sidebar h6 {
+			margin: 0;
+			font-weight: 700;
+		}
+
+		.user-profile-sidebar .status {
+			font-size: 0.75rem;
+			color: #10b981;
+		}
+
+		.sidebar-header {
+			padding: 15px 20px;
+			text-transform: uppercase;
+			font-size: 0.8rem;
+			font-weight: 700;
+			color: #64748b;
+			letter-spacing: 1px;
+		}
+
+		.nav-sidebar {
+			list-style: none;
+			padding: 0;
+		}
+
+		.nav-sidebar li a {
+			padding: 15px 20px;
+			display: flex;
+			align-items: center;
+			color: rgba(255, 255, 255, 0.8);
+			text-decoration: none;
+			transition: 0.2s;
+			border-left: 4px solid transparent;
+		}
+
+		.nav-sidebar li a:hover {
+			background: var(--sidebar-hover);
+			color: white;
+			border-left-color: var(--accent-orange);
+		}
+
+		.nav-sidebar li a i {
+			width: 30px;
+			font-size: 1.1rem;
+		}
+
+		/* Top Header Styling */
+		#topbar {
+			height: 70px;
+			background: var(--header-bg);
+			margin-left: 250px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 30px;
+			color: white;
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
+
+		#topbar .logo-container {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-family: 'Outfit', sans-serif;
+			font-weight: 800;
+			font-size: 1.5rem;
+		}
+
+		#topbar .logo-container span {
+			color: var(--accent-orange);
+		}
+
+		.header-icons {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+
+		.header-icons i {
+			cursor: pointer;
+			opacity: 0.8;
+			transition: 0.3s;
+			position: relative;
+		}
+
+		.header-icons i:hover {
+			opacity: 1;
+			text-shadow: 0 0 10px var(--accent-orange);
+		}
+
+		.header-icons .badge-pill {
+			position: absolute;
+			top: -8px;
+			right: -8px;
+			font-size: 0.6rem;
+			background: var(--accent-orange);
+		}
+
+		.user-dropdown {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			cursor: pointer;
+			margin-left: 10px;
+		}
+
+		.user-dropdown img {
+			width: 35px;
+			height: 35px;
+			border-radius: 50%;
+		}
+
+		/* Main Content Styling */
+		#main-wrapper {
+			margin-left: 250px;
+			padding: 30px;
+			min-height: calc(100vh - 140px);
+		}
+
+		.dashboard-breadcrumb {
+			background: white;
+			padding: 15px 25px;
+			border-radius: 8px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+			margin-bottom: 30px;
+			font-weight: 600;
+			color: var(--text-main);
+			display: flex;
+			align-items: center;
+		}
+
+		footer {
+			margin-left: 250px;
+			padding: 20px;
+			background: white;
+			text-align: center;
+			color: var(--text-muted);
+			font-size: 0.9rem;
+			border-top: 1px solid #e2e8f0;
+		}
+
+		.logout-sidebar-btn {
+			background: #ef4444;
+			color: white !important;
+			margin: 20px;
+			border-radius: 8px;
+			text-align: center;
+			justify-content: center !important;
+			font-weight: 700;
+			border: none;
+			display: flex !important;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<div class="user-profile-sidebar">
+			<img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" alt="Admin">
+			<h6>{{ request.user.first_name|default:"Administrator" }}</h6>
+			<div class="status"><i class="fa fa-circle mr-1"></i> Online</div>
+		</div>
+
+		<div class="sidebar-header">General</div>
+		<ul class="nav-sidebar">
+			<li><a href="/admin"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="/admin/add_service"><i class="fa fa-th-large"></i> Categories</a></li>
+			<li><a href="/admin/view_users"><i class="fa fa-users"></i> Customers</a></li>
+			<li><a href="/admin/view_servicers"><i class="fa fa-clock-o"></i> Pending Servicers</a></li>
+			<li><a href="/admin/ViewapprovedServiceProviders"><i class="fa fa-check-circle"></i> Service Providers</a>
+			</li>
+			<li><a href="/admin/RevenueReport"><i class="fa fa-money"></i> Revenue Report</a></li>
+			
+		</ul>
+
+		<form method="post" action="{% url 'logout_user' %}" id="logoutFormSidebar">
+			{% csrf_token %}
+			<a href="javascript:void(0)" onclick="confirmLogout()" class="logout-sidebar-btn">
+				<i class="fa fa-sign-out mr-2"></i> Logout
+			</a>
+		</form>
+	</div>
+
+	<!-- Top Bar -->
+	<div id="topbar">
+		<div class="logo-container">
+			<i class="fa fa-bars" style="cursor: pointer; margin-right: 15px;"></i>
+			City<span>-360</span>
+		</div>
+
+		<div class="header-icons">
+			<!-- <div style="position: relative;">
+				<i class="fa fa-bell"></i>
+				<span class="badge badge-pill badge-warning">2</span>
 			</div>
-		</div> -->
-		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-	    <div class="container">
-	    	<a class="navbar-brand" href="">On <span>DemandApp</span></a>
-	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="fa fa-bars"></span> Menu
-	      </button>
-	      <div class="collapse navbar-collapse" id="ftco-nav">
-	        <ul class="navbar-nav ml-auto">
-	        	<li class="nav-item active"><a href="/admin" class="nav-link">Home</a></li>
-	        	<li class="nav-item"><a href="add_service" class="nav-link">Add Services</a></li>
-	        	<li class="nav-item"><a href="view_service" class="nav-link">View Services</a></li>
-	        	<li class="nav-item"><a href="view_users" class="nav-link">View Users</a></li>
-	        	<li class="nav-item"><a href="view_servicers" class="nav-link">Approve Servicers </a></li>
-	        	<li class="nav-item"><a href="ViewapprovedServiceProviders" class="nav-link">Service Provider Lists</a></li>
-	          <!-- <li class="nav-item"><a href="signup" class="nav-link">Register</a></li> -->
-	          <!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li> -->
-			  <li class="nav-item"><a onclick="myFunction()" class="nav-link">
-				<form method="post" action={% url 'logout_user' %}>
-				
-								  {% csrf_token %}
-								 <input class="btn btn-danger" type= "submit" value="Logout"/>
-								  </form></a></li>
-	        </ul>
-	      </div>
-	    </div>
-	  </nav>
-    <!-- END nav -->
+			<i class="fa fa-question-circle"></i>
+			<div style="position: relative;">
+				<i class="fa fa-envelope"></i>
+				<span class="badge badge-pill badge-danger">3</span>
+			</div> -->
 
-    {% block content %}
-    {% endblock %}
+			<div class="user-dropdown">
+				<img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e" alt="User">
+				<span class="d-none d-md-inline">{{ request.user.first_name|default:"Administrator" }} <i
+						class="fa fa-chevron-down ml-1" style="font-size: 0.7rem;"></i></span>
+			</div>
+		</div>
+	</div>
 
-    <footer class="footer ftco-section">
-        
-        
-                
-                
-                
-            
-      <div class="col-md-12 text-center">
+	<!-- Main Content -->
+	<div id="main-wrapper">
+		<div class="dashboard-breadcrumb">
+			Dashboard
+		</div>
+		{% block content %}
+		{% endblock %}
+	</div>
 
-        <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-      </div>
-    </div>
-        </div>
-    </footer>
+	<footer>
+		&copy;
+		<script>document.write(new Date().getFullYear());</script> <strong>Pluto</strong> Dashboard Theme. All rights
+		reserved.
+	</footer>
 
-
-
-<!-- loader -->
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
-
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
-<script src="{% static 'js/popper.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
-<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'js/jquery.stellar.min.js' %}"></script>
-<script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'js/scrollax.min.js' %}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-<script src="{% static 'js/google-map.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
-<script>
-	function myFunction() {
-	  alert("Are you sure you want to Sign Out ?");
-	}
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/popper.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script>
+		function confirmLogout() {
+			if (confirm("Are you sure you want to sign out?")) {
+				document.getElementById('logoutFormSidebar').submit();
+			}
+		}
 	</script>
-
 </body>
+
 </html>

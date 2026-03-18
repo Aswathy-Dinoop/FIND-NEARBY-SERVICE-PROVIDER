@@ -1,20 +1,248 @@
 {% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
-    <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/admin.png' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-md-6 ftco-animate">
-          	<h2 class="subheading">Admin Panel</h2>
-          	<h1 class="mb-4">Welcome to Admin Page</h1>
-            <p><a href="#" class="btn btn-primary mr-md-4 py-2 px-4">Learn more <span class="ion-ios-arrow-forward"></span></a></p>
-          </div>
-        </div>
+
+<style>
+  .stat-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .pluto-card {
+    background: white;
+    border-radius: 4px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border: none;
+    transition: 0.3s;
+  }
+
+  .pluto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .pluto-card i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+  }
+
+  .pluto-card .value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #333;
+    margin: 5px 0;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .pluto-card .label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: 600;
+  }
+
+  .icon-orange {
+    color: #ff9800;
+  }
+
+  .icon-blue {
+    color: #2196f3;
+  }
+
+  .icon-green {
+    color: #009688;
+  }
+
+  .icon-pink {
+    color: #e91e63;
+  }
+
+  /* Social Stats */
+  .social-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+
+  .social-card {
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    background: white;
+  }
+
+  .social-card .top-section {
+    padding: 30px;
+    color: white;
+    text-align: center;
+    font-size: 2.5rem;
+  }
+
+  .social-card .bottom-section {
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  .social-card .stat-val {
+    font-weight: 800;
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .social-card .stat-lbl {
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  .bg-facebook {
+    background: #3b5998;
+  }
+
+  .bg-twitter {
+    background: #1da1f2;
+  }
+
+  .bg-linkedin {
+    background: #0077b5;
+  }
+
+  .bg-google {
+    background: #db4437;
+  }
+
+  /* Chart Area */
+  .chart-section {
+    background: white;
+    border-radius: 4px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-section h5 {
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  .dummy-chart {
+    height: 300px;
+    background: #f8fafc;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 20px;
+    border: 1px dashed #cbd5e1;
+  }
+
+  .bar {
+    width: 40px;
+    background: var(--accent-orange);
+    border-radius: 4px 4px 0 0;
+    transition: 0.5s;
+  }
+</style>
+
+<!-- Row 1: Primary Stats -->
+<div class="stat-cards-container">
+  <div class="pluto-card">
+    <i class="fa fa-users icon-orange"></i>
+    <div class="value">{{ user_count }}</div>
+    <div class="label">Total Users</div>
+  </div>
+  <div class="pluto-card">
+    <i class="fa fa-university icon-blue"></i>
+    <div class="value">{{ provider_count }}</div>
+    <div class="label">Service Providers</div>
+  </div>
+  <div class="pluto-card">
+    <i class="fa fa-money icon-green"></i>
+    <div class="value">₹{{ total_revenue|floatformat:2 }}</div>
+    <div class="label">Total Revenue</div>
+  </div>
+  <div class="pluto-card">
+    <i class="fa fa-user-circle icon-pink"></i>
+    <div class="value">{{ worker_count }}</div>
+    <div class="label">Active Workers</div>
+  </div>
+</div>
+
+<!-- Row 2: Social Stats -->
+<div class="social-cards-container">
+  <div class="social-card">
+    <div class="top-section bg-facebook"><i class="fa fa-facebook"></i></div>
+    <div class="bottom-section">
+      <div>
+        <div class="stat-val">35k</div>
+        <div class="stat-lbl">Friends</div>
+      </div>
+      <div>
+        <div class="stat-val">128</div>
+        <div class="stat-lbl">Feeds</div>
       </div>
     </div>
+  </div>
+  <div class="social-card">
+    <div class="top-section bg-twitter"><i class="fa fa-twitter"></i></div>
+    <div class="bottom-section">
+      <div>
+        <div class="stat-val">584k</div>
+        <div class="stat-lbl">Followers</div>
+      </div>
+      <div>
+        <div class="stat-val">978</div>
+        <div class="stat-lbl">Tweets</div>
+      </div>
+    </div>
+  </div>
+  <div class="social-card">
+    <div class="top-section bg-linkedin"><i class="fa fa-linkedin"></i></div>
+    <div class="bottom-section">
+      <div>
+        <div class="stat-val">758+</div>
+        <div class="stat-lbl">Contacts</div>
+      </div>
+      <div>
+        <div class="stat-val">365</div>
+        <div class="stat-lbl">Feeds</div>
+      </div>
+    </div>
+  </div>
+  <div class="social-card">
+    <div class="top-section bg-google"><i class="fa fa-google-plus"></i></div>
+    <div class="bottom-section">
+      <div>
+        <div class="stat-val">450</div>
+        <div class="stat-lbl">Followers</div>
+      </div>
+      <div>
+        <div class="stat-val">57</div>
+        <div class="stat-lbl">Circles</div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Row 3: Analytics Chart -->
+<div class="chart-section">
+  <h5>Extra Area Chart</h5>
+  <div class="dummy-chart">
+    <div class="bar" style="height: 40%;"></div>
+    <div class="bar" style="height: 85%; background: #10b981;"></div>
+    <div class="bar" style="height: 60%; background: #2196f3;"></div>
+    <div class="bar" style="height: 30%; background: #f59e0b;"></div>
+    <div class="bar" style="height: 75%; background: #ef4444;"></div>
+    <div class="bar" style="height: 95%; background: #6366f1;"></div>
+    <div class="bar" style="height: 50%; background: #ec4899;"></div>
+  </div>
+  <div class="text-center mt-3 text-muted small">Platform Growth & Engagement Analytics</div>
+</div>
 
 {% endblock %}
-
-    

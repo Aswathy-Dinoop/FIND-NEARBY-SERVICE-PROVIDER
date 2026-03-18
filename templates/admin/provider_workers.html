@@ -1,0 +1,139 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .content-card {
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .card-title {
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: #333;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-pluto {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-pluto th {
+        background: #f8fafc;
+        padding: 15px;
+        text-align: left;
+        color: #64748b;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    .table-pluto td {
+        padding: 15px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.95rem;
+    }
+
+    .worker-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge-status {
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .badge-booked {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .badge-active {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+</style>
+
+<div class="content-card">
+    <div class="card-title">
+        <div>
+            <i class="fa fa-users mr-2 text-warning"></i>
+            <span class="text-muted">Providers /</span> {{ provider.name }} / <span class="text-dark">Workers</span>
+        </div>
+        <a href="/admin/ViewapprovedServiceProviders" class="btn btn-sm btn-light border">
+            <i class="fa fa-arrow-left mr-1"></i> Back to List
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table-pluto">
+            <thead>
+                <tr>
+                    <th>Worker Info</th>
+                    <th>Specialization</th>
+                    <th>Base Price</th>
+                    <th>Current Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for worker in workers %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-3">
+                            {% if worker.image %}
+                            <img src="{{ worker.image.url }}" class="worker-avatar mr-3">
+                            {% else %}
+                            <div class="worker-avatar mr-3 d-flex align-items-center justify-content-center bg-light">
+                                <i class="fa fa-user-o text-muted"></i>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <div class="font-weight-bold">{{ worker.name }}</div>
+                                <div class="small text-muted">{{ worker.email }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="text-indigo font-weight-bold">{{ worker.department.service_name }}</span>
+                    </td>
+                    <td>
+                        <span class="font-weight-bold">₹{{ worker.price }}</span>
+                    </td>
+                    <td>
+                        {% if worker.status == 'Booked' %}
+                        <span class="badge-status badge-booked">On-Duty</span>
+                        {% else %}
+                        <span class="badge-status badge-active">Available</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        No workers registered under this provider.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

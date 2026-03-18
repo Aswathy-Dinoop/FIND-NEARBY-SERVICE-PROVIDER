@@ -1,105 +1,187 @@
-
-
 {% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/servicer.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Verify Servicers<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Verify Servicers</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">View Servicers</h3>
-									<!-- Bordered table start -->
-<!-- <h1 style="margin-left: 350px; font-size: 40px;"class="card-title"></h1><br> -->
+<style>
+	.content-card {
+		background: white;
+		border-radius: 4px;
+		box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+		padding: 30px;
+		margin-bottom: 30px;
+	}
 
-<!-- <div class="row"> -->
-	<!-- <div style="margin-left: 100px;" class="col-10"> -->
-		<div class="card">
-			<!-- <div class="card-header"> -->
-				
-				<!-- <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a> -->
-				<div class="heading-elements">
-					
-				</div>
-			<div class="card-content collapse show">
-				
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>Servicers Name</th>
-								<th>Email Id</th>
-								<th>Contact Number</th>
-								<th>Register Number</th>
-								<th>Action</th>
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in view_servicers %}
-							<tr>
-								<td>{{i.name}}</td>
-								<td>{{i.email}}</td>
-								<td>{{i.phone}}</td>
-								<td>{{i.regnum}}</td>
+	.card-title {
+		font-weight: 700;
+		margin-bottom: 25px;
+		color: #333;
+		border-bottom: 1px solid #f1f5f9;
+		padding-bottom: 15px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-								<td><a style="margin-left: 10px;" href="ApproveServiceProviders?id={{i.user_id}}"><button class="btn-success">Approve</button></a>
-                                <a style="margin-left: 10px;" href="removeservicers?id={{i.user_id}}"><button class="btn-danger">Remove</button></a>
-                                </td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+	.table-pluto {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.table-pluto th {
+		background: #f8fafc;
+		padding: 15px;
+		text-align: left;
+		color: #64748b;
+		font-weight: 700;
+		font-size: 0.85rem;
+		text-transform: uppercase;
+	}
+
+	.table-pluto td {
+		padding: 15px;
+		border-bottom: 1px solid #f1f5f9;
+		font-size: 0.9rem;
+	}
+
+	.servicer-info .name {
+		font-weight: 700;
+		color: #1e293b;
+		display: block;
+	}
+
+	.servicer-info .id {
+		font-size: 0.75rem;
+		color: #ff9800;
+		font-weight: 800;
+		text-transform: uppercase;
+	}
+
+	.badge-pill-pluto {
+		padding: 4px 12px;
+		border-radius: 20px;
+		font-size: 0.8rem;
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+	}
+
+	.badge-email {
+		background: #e0f2fe;
+		color: #0369a1;
+	}
+
+	.badge-phone {
+		background: #dcfce7;
+		color: #16a34a;
+	}
+
+	.action-btns {
+		display: flex;
+		gap: 10px;
+		justify-content: flex-end;
+	}
+
+	.btn-circle-pluto {
+		width: 35px;
+		height: 35px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.3s;
+		text-decoration: none !important;
+	}
+
+	.btn-approve {
+		background: #dcfce7;
+		color: #16a34a;
+	}
+
+	.btn-approve:hover {
+		background: #16a34a;
+		color: white;
+	}
+
+	.btn-reject {
+		background: #fee2e2;
+		color: #ef4444;
+	}
+
+	.btn-reject:hover {
+		background: #ef4444;
+		color: white;
+	}
+</style>
+
+<div class="content-card">
+	<div class="card-title">
+		<span><i class="fa fa-clock-o mr-2 text-warning"></i> Pending Application Queue</span>
+		<span class="badge badge-danger p-2 px-3">{{ view_servicers|length }} Pending Review</span>
 	</div>
-										
-									</div>
-								</div>
-								
-								</div>
-							</div>
+
+	<div class="table-responsive">
+		<table class="table-pluto">
+			<thead>
+				<tr>
+					<th>Provider</th>
+					<th>Contact Info</th>
+					<th>Registration ID</th>
+					<th class="text-right">Verdict</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for servicer in view_servicers %}
+				<tr>
+					<td>
+						<div class="servicer-info">
+							<span class="name">{{ servicer.name }}</span>
+							<span class="id">Pending Verification</span>
 						</div>
-					</div>
-					
-				</div>
-			</div>
-		</section>
+					</td>
+					<td>
+						<div class="d-flex flex-column gap-2">
+							<span class="badge-pill-pluto badge-email">
+								<i class="fa fa-envelope"></i> {{ servicer.email }}
+							</span>
+							<span class="badge-pill-pluto badge-phone">
+								<i class="fa fa-phone"></i> {{ servicer.phone }}
+							</span>
+						</div>
+					</td>
+					<td>
+						<span class="font-weight-bold text-muted" style="font-size: 0.85rem;">
+							<i class="fa fa-id-card-o mr-1"></i> {{ servicer.regnum }}
+						</span>
+					</td>
+					<td class="text-right">
+						<div class="action-btns">
+							<a href="ApproveServiceProviders?id={{ servicer.user_id }}"
+								class="btn-circle-pluto btn-approve" title="Audit Pass">
+								<i class="fa fa-check"></i>
+							</a>
+							<a href="removeservicers?id={{ servicer.user_id }}"
+								onclick="return confirm('Audit Fail and Remove application?')"
+								class="btn-circle-pluto btn-reject" title="Audit Fail">
+								<i class="fa fa-times"></i>
+							</a>
+						</div>
+					</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="4" class="text-center py-5">
+						<div class="text-muted">
+							<i class="fa fa-shield fa-3x mb-3 opacity-20"></i>
+							<h5>Verification Queue Clear</h5>
+							<p>All service provider applications have been audited.</p>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

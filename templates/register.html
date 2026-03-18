@@ -1,144 +1,400 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('https://www.freeiconspng.com/uploads/red-sign-up-now-button-png-1.png');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Registration Page<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Register Here</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-		<!-- <section class="ftco-section bg-light"> -->
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<div class="col-md-12">
-						<div class="wrapper">
-							<div class="row mb-5">
-								<div class="col-md-3">
-									<div class="dbox w-100 text-center">
-				        		
-				        		<div class="text">
-					          </div>
-				          </div>
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Register Here</h3>
-										<div id="form-message-warning" class="mb-4"></div> 
-					      		
-										<form method="POST" id="contactForm" name="contactForm" class="contactForm">
-											{% csrf_token %}
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Full Name</label>
-														<input type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required>
-													</div>
-												</div>
-												<div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="email">Email Address</label>
-														<input type="email" class="form-control" name="email" id="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="subject">Contact Number</label>
-														<input type="text" class="form-control" name="number" id="number" placeholder="Contact Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" pattern="[6-9]{1}[0-9]{5}[0-9]{4}" title="Enter 10 digit number" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="address">Address</label>
-														<input type="text" class="form-control" name="address" id="myInput" placeholder="Address" onblur="validateInput()" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="district">District</label>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-														<select id="district" name="district" class="form-control px-3 py-6" required>
-															<option value="" disabled selected>Select District</option>
-															
-															<option value="Trivandrum">Trivandrum</option>
-															<option value="Kollam">Kollam</option>
-															<option value="Pathanamthitta">Pathanamthitta</option>
-															<option value="Alappuzha">Alappuzha</option>
-															<option value="Kottayam">Kottayam</option>
-															<option value="Idukki">Idukki</option>
-															<option value="Ernakulam">Ernakulam</option>
-															<option value="Thrissur">Thrissur</option>
-															<option value="Palakkad">Palakkad</option>
-															<option value="Malappuram">Malappuram</option>
-															<option value="Kozhikode">Kozhikode</option>
-															<option value="Wayanad">Wayanad</option>
-															<option value="Kannur">Kannur</option>
-															<option value="Kasaragod">Kasaragod</option>
-												
-															<!-- Add more options as needed -->
-														  </select>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="address">Password</label>
-														<input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" pattern = "[0-9]).{1,}[a-z]).{1,}[A-Z]).{8,}" title="Eight or more characters" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Register Here" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-												
-											</div>
-										</form>
-									</div>
-								</div>
-								<div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
-				          </div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
+	:root {
+		--primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+		--glass-bg: rgba(255, 255, 255, 0.9);
+		--glass-border: rgba(255, 255, 255, 0.2);
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+	}
+
+	.signup-page {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 130px 20px 80px 20px;
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.signup-container {
+		width: 100%;
+		max-width: 900px;
+		display: flex;
+		background: var(--glass-bg);
+		backdrop-filter: blur(20px);
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+		animation: slideUp 0.6s ease-out;
+	}
+
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.signup-info {
+		flex: 1;
+		background: var(--primary-gradient);
+		padding: 60px 40px;
+		color: white;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	@media (min-width: 768px) {
+		.signup-info {
+			display: flex;
+		}
+	}
+
+	.signup-info h2 {
+		font-family: 'Outfit', sans-serif;
+		font-weight: 800;
+		font-size: 2.5rem;
+		margin-bottom: 20px;
+		line-height: 1.1;
+	}
+
+	.signup-info p {
+		font-size: 1.1rem;
+		opacity: 0.9;
+		margin-bottom: 30px;
+		line-height: 1.6;
+	}
+
+	.signup-form-section {
+		flex: 1.2;
+		padding: 50px 40px;
+		background: white;
+	}
+
+	.signup-form-section h3 {
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 30px;
+		font-size: 1.8rem;
+	}
+
+	.form-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+	}
+
+	@media (max-width: 576px) {
+		.form-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.input-group-premium {
+		margin-bottom: 20px;
+		position: relative;
+	}
+
+	.full-width {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 576px) {
+		.full-width {
+			grid-column: span 1;
+		}
+	}
+
+	.input-group-premium label {
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.input-wrapper i {
+		position: absolute;
+		left: 16px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #94a3b8;
+		transition: 0.3s;
+	}
+
+	.form-control-premium {
+		width: 100%;
+		padding: 14px 50px 14px 45px;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		font-size: 1rem;
+		color: var(--text-main);
+		transition: all 0.3s;
+		background: #f8fafc;
+	}
+
+	.form-control-premium:focus {
+		border-color: #6366f1;
+		background: white;
+		box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+		outline: none;
+	}
+
+	.form-control-premium:focus+i {
+		color: #6366f1;
+	}
+
+	select.form-control-premium {
+		appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 16px center;
+		background-size: 18px;
+	}
+
+	.btn-signup-premium {
+		width: 100%;
+		padding: 16px;
+		background: var(--primary-gradient);
+		color: white;
+		border: none;
+		border-radius: 12px;
+		font-weight: 700;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: all 0.3s;
+		margin-top: 10px;
+		box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+	}
+
+	.btn-signup-premium:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.4);
+	}
+
+	.login-link {
+		text-align: center;
+		margin-top: 25px;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+
+	.login-link a {
+		color: #6366f1;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.feature-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.feature-item {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		margin-bottom: 20px;
+		font-size: 1rem;
+	}
+
+	.feature-icon {
+		width: 32px;
+		height: 32px;
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.password-toggle {
+		position: absolute;
+		right: 16px !important;
+		left: auto !important;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: #94a3b8;
+		font-size: 18px;
+		transition: 0.3s;
+		z-index: 10;
+	}
+
+	.password-toggle:hover {
+		color: #6366f1;
+	}
+</style>
+
+<div class="signup-page">
+	<div class="signup-container">
+		<!-- Info Panel (Desktop Only) -->
+		<div class="signup-info">
+			<h2>Join Our Community</h2>
+			<p>Experience the most reliable on-demand services at your fingertips. From cleaning to repairs, we've got
+				you covered.</p>
+
+			<div class="feature-list">
+				<div class="feature-item">
+					<div class="feature-icon"><i class="fa fa-shield"></i></div>
+					<span>Verified Professional Service Providers</span>
+				</div>
+				<div class="feature-item">
+					<div class="feature-icon"><i class="fa fa-clock-o"></i></div>
+					<span>Instant Booking and Scheduling</span>
+				</div>
+				<div class="feature-item">
+					<div class="feature-icon"><i class="fa fa-star"></i></div>
+					<span>Top-rated Quality and Support</span>
 				</div>
 			</div>
-		</section>
-		<script>
-			function validateInput() {
-				var input = document.getElementById('myInput');
-				if (input.value.trim() !== input.value) {
-					alert('Leading white space is not allowed!');
-					input.value = input.value.trim(); // Remove leading white space
-					input.focus(); // Set focus back to the input field
-				}
-			}
-		  </script>
-    
-	{% endblock %}
+		</div>
 
-  
+		<!-- Form Section -->
+		<div class="signup-form-section">
+			<h3>Create Account</h3>
+
+			{% if message %}
+			<div
+				style="background: #fee2e2; color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;">
+				<i class="fa fa-exclamation-circle"></i> {{ message }}
+			</div>
+			{% endif %}
+
+			<form method="POST" id="signupForm">
+				{% csrf_token %}
+				<div class="form-grid">
+					<!-- Full Name -->
+					<div class="input-group-premium">
+						<label for="name">Full Name</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="name" id="name" placeholder="John Doe"
+								required>
+							<i class="fa fa-user"></i>
+						</div>
+					</div>
+
+					<!-- Email -->
+					<div class="input-group-premium">
+						<label for="email">Email Address</label>
+						<div class="input-wrapper">
+							<input type="email" class="form-control-premium" name="email" id="email"
+								placeholder="john@example.com" required>
+							<i class="fa fa-envelope"></i>
+						</div>
+					</div>
+
+					<!-- Phone -->
+					<div class="input-group-premium">
+						<label for="number">Contact Number</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="number" id="number"
+								placeholder="10 Digit Number" pattern="[6-9]{1}[0-9]{9}" required
+								title="Please enter a valid 10-digit mobile number">
+							<i class="fa fa-phone"></i>
+						</div>
+					</div>
+
+					<!-- District -->
+					<div class="input-group-premium">
+						<label for="district">District</label>
+						<div class="input-wrapper">
+							<select id="district" name="district" class="form-control-premium" required>
+								<option value="" disabled selected>Select District</option>
+								<option value="Trivandrum">Trivandrum</option>
+								<option value="Kollam">Kollam</option>
+								<option value="Pathanamthitta">Pathanamthitta</option>
+								<option value="Alappuzha">Alappuzha</option>
+								<option value="Kottayam">Kottayam</option>
+								<option value="Idukki">Idukki</option>
+								<option value="Ernakulam">Ernakulam</option>
+								<option value="Thrissur">Thrissur</option>
+								<option value="Palakkad">Palakkad</option>
+								<option value="Malappuram">Malappuram</option>
+								<option value="Kozhikode">Kozhikode</option>
+								<option value="Wayanad">Wayanad</option>
+								<option value="Kannur">Kannur</option>
+								<option value="Kasaragod">Kasaragod</option>
+							</select>
+							<i class="fa fa-map-marker"></i>
+						</div>
+					</div>
+
+					<!-- Address -->
+					<div class="input-group-premium full-width">
+						<label for="address">Residential Address</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="address" id="address"
+								placeholder="Room No, Street, Landmark..." required>
+							<i class="fa fa-home"></i>
+						</div>
+					</div>
+
+					<!-- Password -->
+					<div class="input-group-premium full-width">
+						<label for="password">Security Password</label>
+						<div class="input-wrapper">
+							<input type="password" class="form-control-premium" name="password" id="password"
+								placeholder="••••••••" required minlength="8">
+							<i class="fa fa-lock"></i>
+							<i class="fa fa-eye-slash password-toggle" id="togglePassword"></i>
+						</div>
+					</div>
+				</div>
+
+				<button type="submit" class="btn-signup-premium">Create My Account</button>
+
+				<div class="login-link">
+					Already have an account? <a href="{% url 'login' %}">Sign In</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	// Client-side trim for address
+	document.getElementById('address').addEventListener('blur', function () {
+		this.value = this.value.trim();
+	});
+
+	// Password visibility toggle
+	const togglePassword = document.querySelector('#togglePassword');
+	const password = document.querySelector('#password');
+
+	togglePassword.addEventListener('click', function (e) {
+		const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		password.setAttribute('type', type);
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
+</script>
+{% endblock %}

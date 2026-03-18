@@ -2,95 +2,306 @@
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/addser.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/customer">Home <i class="fa fa-chevron-right"></i></a></span> <span>Request Form <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Request Form</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+	:root {
+		--primary-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+		--glass-bg: rgba(255, 255, 255, 0.95);
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)),
+			url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 15px;
+		letter-spacing: -1px;
+	}
+
+	.booking-section {
+		padding: 80px 0;
+		background: #f8fafc;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.booking-container {
+		max-width: 900px;
+		margin: 0 auto;
+		background: white;
+		border-radius: 32px;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+		overflow: hidden;
+		display: flex;
+		animation: fadeInUp 0.8s ease-out;
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.worker-profile-side {
+		flex: 0.8;
+		background: var(--primary-gradient);
+		padding: 50px 40px;
+		color: white;
+		display: none;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		justify-content: center;
+	}
+
+	@media (min-width: 992px) {
+		.worker-profile-side {
+			display: flex;
+		}
+	}
+
+	.worker-avatar {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		border: 4px solid rgba(255, 255, 255, 0.2);
+		object-fit: cover;
+		margin-bottom: 20px;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	}
+
+	.worker-info h3 {
+		font-weight: 700;
+		margin-bottom: 10px;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.category-tag {
+		background: rgba(255, 255, 255, 0.2);
+		padding: 6px 16px;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		display: inline-block;
+		margin-bottom: 25px;
+	}
+
+	.form-area {
+		flex: 1.2;
+		padding: 60px;
+	}
+
+	.input-group-premium {
+		margin-bottom: 25px;
+	}
+
+	.input-group-premium label {
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 10px;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.input-wrapper i {
+		position: absolute;
+		left: 18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #94a3b8;
+		transition: 0.3s;
+	}
+
+	.form-control-premium {
+		width: 100%;
+		padding: 15px 20px 15px 50px;
+		border: 2px solid #e2e8f0;
+		border-radius: 14px;
+		font-size: 1rem;
+		color: var(--text-main);
+		background: #f8fafc;
+		transition: all 0.3s;
+	}
+
+	.form-control-premium:focus {
+		border-color: #6366f1;
+		background: white;
+		box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+		outline: none;
+	}
+
+	.form-control-premium:disabled {
+		background: #f1f5f9;
+		cursor: not-allowed;
+		color: #94a3b8;
+	}
+
+	.form-control-premium:focus+i {
+		color: #6366f1;
+	}
+
+	.btn-submit-booking {
+		width: 100%;
+		padding: 18px;
+		background: var(--primary-gradient);
+		color: white;
+		border: none;
+		border-radius: 16px;
+		font-weight: 700;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: all 0.3s;
+		margin-top: 10px;
+		box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+	}
+
+	.btn-submit-booking:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.5);
+	}
+
+	.summary-card {
+		background: #f8fafc;
+		border-radius: 16px;
+		padding: 20px;
+		margin-bottom: 30px;
+		border: 1px solid #e2e8f0;
+	}
+
+	.summary-item {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 8px;
+		font-size: 0.95rem;
+	}
+
+	.summary-item .label {
+		color: var(--text-muted);
+	}
+
+	.summary-item .value {
+		font-weight: 600;
+		color: var(--text-main);
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Book Your Service</h1>
+		<p>Secure premium professional help in just a few clicks.</p>
+	</div>
+</div>
+
+<section class="booking-section">
+	<div class="container">
+		<div class="booking-container">
+			<!-- Worker Profile Sidebar -->
+			<div class="worker-profile-side">
+				<img src="/media/{{upd.image}}" class="worker-avatar" alt="Worker">
+				<div class="worker-info">
+					<h3>{{upd.name}}</h3>
+					<span class="category-tag">{{upd.department.service_name}}</span>
+				</div>
+				<div style="text-align: center; margin-top: 20px; opacity: 0.9; font-size: 0.9rem;">
+					<p style="font-style: italic; margin-bottom: 15px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; font-weight: 300;">
+						"{{upd.description}}"
+					</p>
+					<p><i class="fa fa-star text-warning"></i> Rated Expert</p>
+					<p><i class="fa fa-check-circle"></i> Service Guaranteed</p>
+				</div>
+			</div>
+
+			<!-- Form Area -->
+			<div class="form-area">
+				<h3 style="font-weight: 800; margin-bottom: 25px; color: var(--text-main);">Schedule Your Appointment
+				</h3>
+
+				<form action="" method="POST">
+					{% csrf_token %}
+
+					<div class="summary-card">
+						<div class="summary-item">
+							<span class="label">Professional</span>
+							<span class="value">{{upd.name}}</span>
+						</div>
+						<div class="summary-item">
+							<span class="label">Service Category</span>
+							<span class="value">{{upd.department.service_name}}</span>
+						</div>
+						<div class="summary-item"
+							style="border-top: 1px solid #e2e8f0; margin-top: 10px; padding-top: 10px;">
+							<span class="label">Starting Price</span>
+							<span class="value" style="color: #6366f1; font-size: 1.1rem;">₹{{upd.price}}</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="input-group-premium">
+								<label>Preferred Date</label>
+								<div class="input-wrapper">
+									<input type="date" class="form-control-premium" name="bdate" id="dateInput"
+										required>
+									<i class="fa fa-calendar"></i>
 								</div>
 							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Request Form</h3>
-										<!-- <div id="form-message-warning" class="mb-4"></div>  -->
-					      		<!-- <div id="form-message-success" class="mb-4">
-					            Your message was sent, thank you!
-					      		</div> -->
-										<form action="" method="POST" id="contactForm" name="contactForm" class="contactForm">
-											{% csrf_token %}
-                                            <div class="row">
-												
-                                                <div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Worker Full Name</label>
-														<input value="{{upd.name}}" disabled="True" type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required>
-													</div>
-												</div>
-                                                <div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Service Type</label>
-														<input value="{{upd.department.service_name}}" disabled="True" type="text" class="form-control" name="name" id="name" placeholder="Add Service Name">
-													</div>
-												</div>
-                                                <div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Booking Date</label>
-														<input  type="date" class="form-control" name="bdate" id="dateInput" placeholder="Choose a date" required>
-													</div>
-												</div>
-                                                <div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Booking Time</label>
-														<input  type="time" class="form-control" name="time" id="time" placeholder="Choose a time" required>
-													</div>
-												</div>
-												
-												<div class="col-md-12">
-													<div class="form-group">
-                                                       <input type="submit" value="Send Requests" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-								
+						</div>
+						<div class="col-md-6">
+							<div class="input-group-premium">
+								<label>Preferred Time</label>
+								<div class="input-wrapper">
+									<input type="time" class="form-control-premium" name="time" required>
+									<i class="fa fa-clock-o"></i>
 								</div>
 							</div>
 						</div>
 					</div>
-					
-				</div>
-			</div>
-		</section>
-        <script>
-            // Get today's date in the format YYYY-MM-DD
-            const today = new Date().toISOString().split('T')[0];
-            
-            // Set the minimum date for the input field to today
-            document.getElementById('dateInput').min = today;
-          </script>
-    
-	{% endblock %}
 
-  
+					<button type="submit" class="btn-submit-booking">
+						Confirm Booking Request <i class="fa fa-arrow-right"></i>
+					</button>
+				</form>
+
+				<p style="margin-top: 20px; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+					By clicking confirm, you agree to our service terms and conditions.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	// Get today's date in the format YYYY-MM-DD
+	const today = new Date().toISOString().split('T')[0];
+	// Set the minimum date for the input field to today
+	document.getElementById('dateInput').min = today;
+</script>
+
+{% endblock %}

@@ -3,94 +3,306 @@
 {% block content %}
 {% if message %}
 <script>
-alert("{{ message }}")
+	alert("{{ message }}")
 </script>
 {% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/login.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Login Page<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Login Here</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-		<!-- <section class="ftco-section bg-light"> -->
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<!-- <div class="col-md-12"> -->
-						<!-- <div class="wrapper"> -->
-							<div class="row mb-5">
-								<div class="col-md-3">
-									<div class="dbox w-100 text-center">
-				        		
-				        		<div class="text">
-					          </div>
-				          </div>
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-9">
-									<div class="contact-wrap w-100 p-md-5 p-10">
-										<h3 class="mb-4">Login Here</h3>
-										<div id="form-message-warning" class="mb-4"></div> 
-					      		
-										<form method="POST" id="contactForm" name="contactForm" class="contactForm">
-											{% csrf_token %}
-											<div class="row">
-												
-												<div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="email">Email Address</label>
-														<input type="email" class="form-control" name="email" id="email" placeholder="Email">
-													</div>
-												</div>
-												
-												
-										
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="address">Password</label>
-														<input type="password" class="form-control" name="password" id="password" placeholder="Password">
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Login Here" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-												
-											</div>
-										</form>
-									</div>
-								</div>
-								<!-- <div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
-				          </div>
-								</div> -->
-							</div>
-						</div>
-					</div>
-					
-				</div>
+<style>
+	/* Premium Login Styles */
+	#ftco-navbar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		background: transparent !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	#ftco-navbar .navbar-brand,
+	#ftco-navbar .nav-link {
+		color: white !important;
+	}
+
+	.login-wrapper {
+		min-height: 100vh;
+		background: url('{% static "images/login.jpg" %}');
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 120px 20px 60px 20px;
+		position: relative;
+	}
+
+	.login-wrapper::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 100%);
+		z-index: 1;
+	}
+
+	.login-card {
+		background: rgba(255, 255, 255, 0.08);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 28px;
+		padding: 50px 45px;
+		width: 100%;
+		max-width: 480px;
+		box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+		color: white;
+		z-index: 2;
+		animation: cardAppear 1s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	@keyframes cardAppear {
+		from {
+			opacity: 0;
+			transform: translateY(60px) scale(0.9);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	.login-title {
+		font-size: 36px;
+		font-weight: 800;
+		margin-bottom: 10px;
+		text-align: center;
+		letter-spacing: -1px;
+		background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.login-subtitle {
+		color: rgba(255, 255, 255, 0.5);
+		text-align: center;
+		margin-bottom: 45px;
+		font-size: 16px;
+		font-weight: 400;
+	}
+
+	.form-group-custom {
+		margin-bottom: 28px;
+		position: relative;
+	}
+
+	.form-group-custom i {
+		position: absolute;
+		left: 20px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: rgba(255, 255, 255, 0.4);
+		font-size: 20px;
+		transition: 0.3s;
+	}
+
+	.input-premium {
+		background: rgba(255, 255, 255, 0.03) !important;
+		border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+		border-radius: 16px !important;
+		padding: 18px 50px 18px 55px !important;
+		color: white !important;
+		width: 100%;
+		font-size: 16px;
+		transition: all 0.4s ease;
+		display: block;
+	}
+
+	.input-premium:focus {
+		background: rgba(255, 255, 255, 0.08) !important;
+		border-color: #3b82f6 !important;
+		box-shadow: 0 0 25px rgba(59, 130, 246, 0.2) !important;
+		outline: none;
+	}
+
+	.input-premium:focus+i {
+		color: #3b82f6;
+	}
+
+	.btn-premium {
+		background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+		color: white;
+		border: none;
+		border-radius: 16px;
+		padding: 18px;
+		width: 100%;
+		font-weight: 700;
+		font-size: 18px;
+		cursor: pointer;
+		transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		margin-top: 15px;
+		box-shadow: 0 15px 30px -10px rgba(59, 130, 246, 0.5);
+	}
+
+	.btn-premium:hover {
+		transform: translateY(-3px) scale(1.02);
+		box-shadow: 0 25px 40px -10px rgba(59, 130, 246, 0.6);
+		filter: brightness(1.1);
+	}
+
+	.btn-premium:active {
+		transform: translateY(-1px) scale(1);
+	}
+
+	.divider-text {
+		display: flex;
+		align-items: center;
+		margin: 30px 0;
+		color: rgba(255, 255, 255, 0.2);
+	}
+
+	.divider-text::before,
+	.divider-text::after {
+		content: '';
+		flex: 1;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.divider-text span {
+		padding: 0 15px;
+		font-size: 12px;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+	}
+
+	.social-auth {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 15px;
+		margin-bottom: 30px;
+	}
+
+	.social-item {
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 14px;
+		padding: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		color: white;
+		font-size: 14px;
+		transition: 0.3s;
+		cursor: pointer;
+	}
+
+	.social-item:hover {
+		background: rgba(255, 255, 255, 0.1);
+		transform: translateY(-2px);
+	}
+
+	.signup-link {
+		text-align: center;
+		margin-top: 20px;
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	.signup-link a {
+		color: #3b82f6;
+		text-decoration: none;
+		font-weight: 600;
+		transition: 0.3s;
+	}
+
+	.signup-link a:hover {
+		color: #60a5fa;
+		text-decoration: underline;
+	}
+
+	/* Hide base footer and hero on login page */
+	.footer,
+	.hero-wrap-2 {
+		display: none !important;
+	}
+
+	.password-toggle {
+		position: absolute;
+		right: 20px !important;
+		left: auto !important;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: rgba(255, 255, 255, 0.4);
+		font-size: 18px;
+		transition: 0.3s;
+		z-index: 10;
+	}
+
+	.password-toggle:hover {
+		color: #3b82f6;
+	}
+</style>
+
+<div class="login-wrapper">
+	<div class="login-card">
+		<div class="login-header">
+			<h1 class="login-title">Welcome</h1>
+			<p class="login-subtitle">Sign in to access your dashboard</p>
+		</div>
+
+		<form method="POST" id="loginForm">
+			{% csrf_token %}
+
+			<div class="form-group-custom">
+				<i class="fa fa-envelope"></i>
+				<input type="text" class="input-premium" name="email" id="email" placeholder="Email Address or Username"
+					required>
 			</div>
-		</section>
 
-    
-	{% endblock %}
+			<div class="form-group-custom">
+				<i class="fa fa-lock"></i>
+				<input type="password" class="input-premium" name="password" id="password" placeholder="Password"
+					required>
+				<i class="fa fa-eye-slash password-toggle" id="togglePassword"></i>
+			</div>
 
-  
+			<div class="d-flex justify-content-between align-items-center mb-4">
+
+			</div>
+
+			<button type="submit" class="btn-premium">Sign In</button>
+
+
+
+
+			<div class="signup-link">
+				Don't have an account? <a href="{% url 'usersignup' %}">Sign Up</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	const togglePassword = document.querySelector('#togglePassword');
+	const password = document.querySelector('#password');
+
+	togglePassword.addEventListener('click', function (e) {
+		// toggle the type attribute
+		const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		password.setAttribute('type', type);
+
+		// toggle the eye slash icon
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
+</script>
+{% endblock %}

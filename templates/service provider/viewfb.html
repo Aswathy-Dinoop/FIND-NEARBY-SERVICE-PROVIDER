@@ -1,105 +1,214 @@
-
-
 {% extends 'service provider/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/10.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Add Services <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">View Feedback</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">View Feedback</h3>
-									<!-- Bordered table start -->
-<!-- <h1 style="margin-left: 350px; font-size: 40px;"class="card-title"></h1><br> -->
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
 
-<!-- <div class="row"> -->
-	<!-- <div style="margin-left: 100px;" class="col-10"> -->
-		<div class="card">
-			<!-- <div class="card-header"> -->
-				
-				<!-- <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a> -->
-				
-			<!-- </div> -->
-			<div class="card-content collapse show">
-				<!-- <div class="card-body">
-					<p class="card-text">Add <code>.table-bordered</code> for borders on all sides of the table and cells.</p>
-				</div> -->
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>User</th>
-                                <th>Worker Info</th>
-                                <th>Comments</th>
-                                <th>Rating</th>
-                                <!-- <th>Price</th>
-                                <th>City</th> -->
-                                
-								<!-- <th>Update/Remove</th> -->
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                           {% for  i in fb %}
-							<tr>
-								<td>{{i.user.name}}</td>
-                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
-                                <td>{{i.workers.name}}</td>
-                                <td>{{i.comment}}</td>
-                                <td>{{i.star}} </td>
-                                <!-- <td>{{i.city}}</td> -->
-								<!-- <td><a href="update_services?id={{i.id}}"><button class="btn-success">Update</button></a>
-                                <a style="margin-left: 10px;" href="RemoveServices?id={{i.id}}"><button class="btn-danger">Remove</button></a>
-                                </td> -->
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+	:root {
+		--primary: #6366f1;
+		--star-color: #f59e0b;
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+		--bg-light: #f8fafc;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 10px;
+		letter-spacing: -1px;
+	}
+
+	.feedback-container {
+		padding: 60px 0;
+		background: var(--bg-light);
+		min-height: 70vh;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.feedback-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+		gap: 30px;
+		animation: fadeIn 0.8s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.feedback-card {
+		background: white;
+		border-radius: 24px;
+		padding: 30px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+		transition: 0.3s;
+		display: flex;
+		flex-direction: column;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.feedback-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+	}
+
+	.user-meta {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		margin-bottom: 20px;
+	}
+
+	.user-avatar {
+		width: 45px;
+		height: 45px;
+		background: #e0e7ff;
+		color: #4338ca;
+		border-radius: 12px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 1.1rem;
+	}
+
+	.user-details h5 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--text-main);
+	}
+
+	.user-details span {
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
+
+	.rating-stars {
+		color: var(--star-color);
+		margin-bottom: 15px;
+		font-size: 0.9rem;
+	}
+
+	.comment-body {
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: var(--text-main);
+		font-style: italic;
+		background: #f8fafc;
+		padding: 20px;
+		border-radius: 16px;
+		position: relative;
+		flex-grow: 1;
+	}
+
+	.comment-body::before {
+		content: '"';
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		font-size: 2rem;
+		color: #e2e8f0;
+		line-height: 1;
+	}
+
+	.worker-tag {
+		margin-top: 20px;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--primary);
+		background: #eff6ff;
+		padding: 6px 14px;
+		border-radius: 20px;
+		align-self: flex-start;
+	}
+
+	.empty-state {
+		grid-column: 1 / -1;
+		text-align: center;
+		padding: 100px 40px;
+		color: var(--text-muted);
+	}
+
+	.empty-state i {
+		font-size: 4rem;
+		opacity: 0.2;
+		margin-bottom: 20px;
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Client Feedback</h1>
+		<p>Discover what customers are saying about your provided services and workers.</p>
+	</div>
+</div>
+
+<div class="feedback-container">
+	<div class="container">
+		<div class="feedback-grid">
+			{% for i in fb %}
+			<div class="feedback-card">
+				<div class="user-meta">
+					<div class="user-avatar">
+						{{ i.user.name|slice:":1"|upper }}
+					</div>
+					<div class="user-details">
+						<h5>{{ i.user.name }}</h5>
+						<span>Verified Client</span>
+					</div>
+				</div>
+
+				<div class="rating-stars">
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<i class="fa fa-star"></i>
+					<span class="ml-2 text-muted small">({{ i.star }} Rating)</span>
+				</div>
+
+				<div class="comment-body">
+					{{ i.comment }}
+				</div>
+
+				<div class="worker-tag">
+					<i class="fa fa-user-circle"></i> Service for: {{ i.workers.name }}
 				</div>
 			</div>
+			{% empty %}
+			<div class="empty-state">
+				<i class="fa fa-comments-o"></i>
+				<h3>No feedback yet</h3>
+				<p>When customers completion services and rate your workers, they will appear here.</p>
+			</div>
+			{% endfor %}
 		</div>
 	</div>
-										
-									</div>
-								</div>
-								
-								</div>
-							</div>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</section>
+</div>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

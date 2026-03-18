@@ -1,120 +1,350 @@
-{% extends "customer/base copy.html" %}
+{% extends 'customer/base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    {% comment %} <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-5">
-            <a href="index.html">Home</a> <span class="mx-2 mb-0">/</span>
-            <strong class="text-black">Checkout</strong>
-          </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&family=Source+Code+Pro:wght@400;500&display=swap');
+
+    :root {
+        --card-bg: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+    }
+
+    .checkout-section {
+        padding: 80px 0;
+        background: #f1f5f9;
+        min-height: 90vh;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .checkout-page-title {
+        text-align: center;
+        margin-bottom: 50px;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .checkout-page-title h1 {
+        font-weight: 800;
+        font-size: 3rem;
+        color: var(--text-main);
+        margin-bottom: 10px;
+    }
+
+    .checkout-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 50px;
+        align-items: start;
+    }
+
+    @media (max-width: 992px) {
+        .checkout-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Virtual Card Styling */
+    .card-preview-wrapper {
+        position: sticky;
+        top: 100px;
+    }
+
+    .virtual-card {
+        width: 100%;
+        max-width: 400px;
+        height: 250px;
+        background: var(--card-bg);
+        border-radius: 24px;
+        padding: 30px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.3);
+        margin: 0 auto 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .virtual-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    }
+
+    .card-chip {
+        width: 50px;
+        height: 40px;
+        background: linear-gradient(135deg, #ffd700, #ff8c00);
+        border-radius: 8px;
+    }
+
+    .card-number-display {
+        font-family: 'Source Code Pro', monospace;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+        margin: 20px 0;
+    }
+
+    .card-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .card-label {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-bottom: 5px;
+    }
+
+    .card-value {
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    /* Form Styling */
+    .payment-form-card {
+        background: white;
+        border-radius: 32px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .amount-summary {
+        background: #f8fafc;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 35px;
+        border: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .amount-summary span {
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .amount-summary h2 {
+        margin: 0;
+        color: #6366f1;
+        font-weight: 800;
+    }
+
+    .input-group-premium {
+        margin-bottom: 25px;
+    }
+
+    .input-group-premium label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .form-control-premium {
+        width: 100%;
+        padding: 15px 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 14px;
+        font-size: 1rem;
+        color: var(--text-main);
+        background: #f8fafc;
+        transition: 0.3s;
+    }
+
+    .form-control-premium:focus {
+        border-color: #6366f1;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+
+    .btn-pay-now {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-pay-now:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 35px -5px rgba(99, 102, 241, 0.5);
+    }
+
+    .secure-notice {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 25px;
+        color: #10b981;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+</style>
+
+<div class="checkout-section">
+    <div class="container">
+        <div class="checkout-page-title">
+            <h1>Secure Checkout</h1>
+            <p>Finalize your payment securely to confirm your service.</p>
         </div>
-      </div>
-    </div>
-    
-     {% endcomment %}
-<div class="container">
-    <h3 style="color:red">Payment through any cards are acceptable</h3>
-    <br>
-    <div class="row">
-        <div class="col-xs-8 col-md-6 col-md-offset-4">
-            <div class="container">
-                <div class="panel-heading">
-                    <div class="row">
-                        <h3 class="text-center"></h3>
-                        <img class="img-responsive cc-img" src="http://prepbootstrap.com/Content/images/shared/misc/creditcardicons.png">
-                    </div>
+
+        <div class="checkout-container">
+            <!-- Form Side -->
+            <div class="payment-form-card">
+                <div class="amount-summary">
+                    <span>Total Payable Amount</span>
+                    <h2>₹{{ abc.amount }}</h2>
                 </div>
-                <br><br>
-                <div class="container">
-                    <form method="post" action="{% url 'Chpayments' abc.id %}">
-                        	{% csrf_token %}
-                        <h4>Payable Amount:{{abc.amount}}</h4>
-                        <br>
-                        <div class="row">
-                            <div class="col-xl-12 col-md-7">
-                                <div class="form-group">
-                                    <label>CARD NUMBER</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="xxxx xxxx xxxx xxxx" required pattern="[0-9]{4}[0-9]{4}[0-9]{4}[0-9]{4}" />
-                                        <span class="input-group-addon"><span class="fa fa-credit-card"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col-xs-10 col-md-7">
-                                <div class="form-group">
-                                  <!-- <label for="monthYear">Month and Year (MM/YYYY):</label> -->
-                                    <label  for="monthYear"><span class="visible-xs-inline">EXPIRATION </span> DATE</label>
-                                    <input type="text" class="form-control" placeholder="MM / YYYY" id="monthYear" placeholder="MM/YYYY" onchange="validateMonthYear()" required />
-                                </div>
-                            </div>
-                            <div class="col-xs-5 col-md-5 pull-right">
-                                <div class="form-group">
-                                    <label>CV CODE</label>
-                                    <input type="tel" class="form-control" placeholder="xxx" pattern="[0-9]{3}" required />
-                                </div>
-                            </div>
-                        </div><br>
-                        <div class="row">
-                            <div class="col-xl-12  col-md-7">
-                                <div class="form-group">
-                                    <label>CARD OWNER</label>
-                                    <input type="text" class="form-control" placeholder="Card Owner Names" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required />
-                                </div>
+
+                <form method="POST" action="{% url 'Chpayments' abc.id %}" id="paymentForm">
+                    {% csrf_token %}
+
+                    <div class="input-group-premium">
+                        <label>Card Number</label>
+                        <input type="text" class="form-control-premium" id="cardNumberInput"
+                            placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+
+                    <div class="input-group-premium">
+                        <label>Card Holder Name</label>
+                        <input type="text" class="form-control-premium" id="cardNameInput" placeholder="FULL NAME"
+                            required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="input-group-premium">
+                                <label>Expiration Date</label>
+                                <input type="text" class="form-control-premium" id="cardExpiryInput"
+                                    placeholder="MM / YY" maxlength="7" required>
                             </div>
                         </div>
-                </div><br><br>
-                <div class="panel-footer">
-                    <div class="row">
-                        <a class="col-xl-12 col-md-7">
-                            <button class="btn btn-secondary btn-lg btn-block" type="submit" >Process payment</button></a></div>
+                        <div class="col-md-5">
+                            <div class="input-group-premium">
+                                <label>CVV / CVC</label>
+                                <input type="password" class="form-control-premium" id="cardCvvInput" placeholder="***"
+                                    maxlength="3" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-pay-now">
+                        <i class="fa fa-lock mr-2"></i> Confirm & Pay ₹{{ abc.amount }}
+                    </button>
+
+                    <div class="secure-notice">
+                        <i class="fa fa-shield"></i> 256-bit SSL Encrypted Secure Payment
+                    </div>
+                </form>
+            </div>
+
+            <!-- Visual Side -->
+            <div class="card-preview-wrapper">
+                <div class="virtual-card">
+                    <div class="card-chip"></div>
+                    <div class="card-number-display" id="cardDisplayNumber">#### #### #### ####</div>
+                    <div class="card-bottom">
+                        <div class="card-info">
+                            <div class="card-label">Card Holder</div>
+                            <div class="card-value" id="cardDisplayName">YOUR NAME</div>
+                        </div>
+                        <div class="card-info" style="text-align: right;">
+                            <div class="card-label">Expires</div>
+                            <div class="card-value" id="cardDisplayExpiry">MM/YY</div>
                         </div>
                     </div>
                 </div>
-                  </form>
+
+                <div style="text-align: center; color: var(--text-muted);">
+                    <img src="https://prepbootstrap.com/Content/images/shared/misc/creditcardicons.png"
+                        style="max-width: 250px; opacity: 0.6; filter: grayscale(1);" alt="Payment Providers">
+                    <p style="font-size: 0.8rem; margin-top: 15px;">Accepted Cards: Visa, Mastercard, AMEX, Discover</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    .cc-img {
-        margin: 0 auto;
-    }
-</style>
-<!-- Credit Card Payment Form - END -->
 <script>
-  function validateMonthYear() {
-      var monthYearInput = document.getElementById("monthYear").value;
-      var pattern = /^(0[1-9]|1[0-2])\/\d{4}$/;
-  
-      if (!pattern.test(monthYearInput)) {
-          alert("Invalid month and year format! Please enter in MM/YYYY format.");
-          return;
-      }
-  
-      var inputParts = monthYearInput.split('/');
-      var inputMonth = parseInt(inputParts[0], 10);
-      var inputYear = parseInt(inputParts[1], 10);
-      var currentDate = new Date();
-      var currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so we add 1
-  
-      if (inputYear < currentDate.getFullYear() || (inputYear === currentDate.getFullYear() && inputMonth < currentMonth)) {
-          alert("Past dates and years are not allowed!");
-          document.getElementById("monthYear").value = ''; // Clear input field if past date or year is entered
-      }
-  }
-  </script>
-</div>
-</div>
+    const cardNumInput = document.getElementById('cardNumberInput');
+    const cardNameInput = document.getElementById('cardNameInput');
+    const cardExpiryInput = document.getElementById('cardExpiryInput');
 
-  
+    const cardNumDisplay = document.getElementById('cardDisplayNumber');
+    const cardNameDisplay = document.getElementById('cardDisplayName');
+    const cardExpiryDisplay = document.getElementById('cardDisplayExpiry');
+
+    // Real-time Card Number formatting and preview
+    cardNumInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+        e.target.value = formatted;
+        cardNumDisplay.textContent = formatted || '#### #### #### ####';
+    });
+
+    // Real-time Name preview
+    cardNameInput.addEventListener('input', (e) => {
+        cardNameDisplay.textContent = e.target.value.toUpperCase() || 'YOUR NAME';
+    });
+
+    // Real-time Expiry formatting and preview
+    cardExpiryInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 2) {
+            value = value.substring(0, 2) + ' / ' + value.substring(2, 4);
+        }
+        e.target.value = value;
+        cardExpiryDisplay.textContent = value || 'MM/YY';
+    });
+
+    // Form Validation on Submit
+    document.getElementById('paymentForm').addEventListener('submit', function (e) {
+        const expiry = cardExpiryInput.value;
+        const pattern = /^(0[1-9]|1[0-2])\s\/\s\d{2}$/;
+
+        if (!pattern.test(expiry)) {
+            alert("Invalid expiration date format! Please use MM / YY");
+            e.preventDefault();
+            return;
+        }
+
+        const parts = expiry.split(' / ');
+        const inputMonth = parseInt(parts[0], 10);
+        const inputYearShort = parseInt(parts[1], 10);
+        const inputYear = 2000 + inputYearShort;
+        const now = new Date();
+
+        if (inputYear < now.getFullYear() || (inputYear === now.getFullYear() && inputMonth < (now.getMonth() + 1))) {
+            alert("This card has expired. Please use a valid card.");
+            e.preventDefault();
+        }
+    });
+</script>
+
 {% endblock %}

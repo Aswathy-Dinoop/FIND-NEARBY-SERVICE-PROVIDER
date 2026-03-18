@@ -1,105 +1,230 @@
-
-
 {% extends 'service provider/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/10.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/servicer">Home <i class="fa fa-chevron-right"></i></a></span> <span>Payment Details <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">View Payment Details</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">View Payment Lists</h3>
-									<!-- Bordered table start -->
-<!-- <h1 style="margin-left: 350px; font-size: 40px;"class="card-title"></h1><br> -->
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
 
-<!-- <div class="row"> -->
-	<!-- <div style="margin-left: 100px;" class="col-10"> -->
-		<div class="card">
-			<!-- <div class="card-header"> -->
-				
-				<!-- <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a> -->
-				
-			<!-- </div> -->
-			<div class="card-content collapse show">
-				<!-- <div class="card-body">
-					<p class="card-text">Add <code>.table-bordered</code> for borders on all sides of the table and cells.</p>
-				</div> -->
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>User</th>
-                                <th>Worker Info</th>
-                                <th>Status</th>
-                                <!-- <th>Rating</th> -->
-                                <!-- <th>Price</th>
-                                <th>City</th> -->
-                                
-								<!-- <th>Update/Remove</th> -->
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                           {% for  i in pay %}
-							<tr>
-								<td>{{i.user.name}}</td>
-                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
-                                <td>{{i.services.name}}</td>
-                                <!-- <td>{{i.comment}}</td> -->
-                                <td>{{i.status}} </td>
-                                <!-- <td>{{i.city}}</td> -->
-								<!-- <td><a href="update_services?id={{i.id}}"><button class="btn-success">Update</button></a>
-                                <a style="margin-left: 10px;" href="RemoveServices?id={{i.id}}"><button class="btn-danger">Remove</button></a>
-                                </td> -->
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+	:root {
+		--primary: #6366f1;
+		--success: #10b981;
+		--warning: #f59e0b;
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+		--bg-light: #f8fafc;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 10px;
+		letter-spacing: -1px;
+	}
+
+	.finance-container {
+		padding: 60px 0;
+		background: var(--bg-light);
+		min-height: 70vh;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.finance-card {
+		background: white;
+		border-radius: 24px;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+		padding: 40px;
+		animation: fadeIn 0.8s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.table-custom {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0 12px;
+	}
+
+	.table-custom th {
+		padding: 15px 20px;
+		font-weight: 700;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		letter-spacing: 0.05em;
+		border-bottom: 2px solid #f1f5f9;
+	}
+
+	.table-custom tr {
+		transition: 0.3s;
+	}
+
+	.table-custom tr:hover td {
+		background: #f8fafc;
+	}
+
+	.table-custom td {
+		padding: 20px;
+		background: white;
+		vertical-align: middle;
+		border-top: 1px solid #f1f5f9;
+		border-bottom: 1px solid #f1f5f9;
+	}
+
+	.table-custom td:first-child {
+		border-left: 1px solid #f1f5f9;
+		border-radius: 12px 0 0 12px;
+	}
+
+	.table-custom td:last-child {
+		border-right: 1px solid #f1f5f9;
+		border-radius: 0 12px 12px 0;
+	}
+
+	.status-badge {
+		padding: 6px 14px;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		display: inline-block;
+	}
+
+	.status-paid {
+		background: #d1fae5;
+		color: #059669;
+	}
+
+	.status-pending {
+		background: #fef3c7;
+		color: #d97706;
+	}
+
+	.status-other {
+		background: #f1f5f9;
+		color: #475569;
+	}
+
+	.amount-text {
+		font-weight: 700;
+		color: var(--text-main);
+		font-size: 1.1rem;
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 80px 40px;
+		color: var(--text-muted);
+	}
+
+	.empty-state i {
+		font-size: 4rem;
+		margin-bottom: 20px;
+		opacity: 0.2;
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Transaction History</h1>
+		<p>Monitor your earnings and payment status for all completed service assignments.</p>
+	</div>
+</div>
+
+<div class="finance-container">
+	<div class="container">
+		<div class="finance-card">
+			<div class="mb-5 d-flex justify-content-between align-items-end">
+				<div>
+					<h3 class="mb-1" style="font-weight: 700;">Earnings Report</h3>
+					<p class="text-muted small mb-0">List of all payments received and pending from clients.</p>
 				</div>
+				<div class="text-right">
+					<i class="fa fa-university text-primary mb-2" style="font-size: 1.5rem;"></i>
+				</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table-custom">
+					<thead>
+						<tr>
+							<th>Transaction Detail</th>
+							<th>Worker Ref</th>
+							<th>Amount</th>
+							<th>Payment Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in pay %}
+						<tr>
+							<td>
+								<div class="d-flex align-items-center">
+									<div class="user-avatar-mini mr-3"
+										style="width: 40px; height: 40px; background: #eff6ff; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+										<i class="fa fa-user"></i>
+									</div>
+									<div>
+										<div class="font-weight-bold">{{ i.user.name }}</div>
+										<div class="small text-muted">Service Subscription</div>
+									</div>
+								</div>
+							</td>
+							<td>
+								<div class="small font-weight-bold">{{ i.services.name }}</div>
+								<div class="small text-muted">{{ i.services.department.service_name }}</div>
+							</td>
+							<td>
+								<span class="amount-text">₹{{ i.amount|default:i.services.price }}</span>
+							</td>
+							<td>
+								{% if i.status == 'paid' or i.paymentstatus == 'paid' %}
+								<span class="status-badge status-paid">
+									<i class="fa fa-check-circle mr-1"></i> Received
+								</span>
+								{% elif i.status == 'assigned' %}
+								<span class="status-badge status-pending">
+									<i class="fa fa-clock-o mr-1"></i> Pending
+								</span>
+								{% else %}
+								<span class="status-badge status-other">{{ i.status }}</span>
+								{% endif %}
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="4">
+								<div class="empty-state">
+									<i class="fa fa-credit-card-alt"></i>
+									<h4>No transactions yet</h4>
+									<p>Your payment history will appear here once services are booked and paid for.</p>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-										
-									</div>
-								</div>
-								
-								</div>
-							</div>
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</section>
+</div>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

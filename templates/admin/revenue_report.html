@@ -1,0 +1,146 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .content-card {
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .card-title {
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: #333;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .table-pluto {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-pluto th {
+        background: #f8fafc;
+        padding: 15px;
+        text-align: left;
+        color: #64748b;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    .table-pluto td {
+        padding: 15px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+
+    .revenue-amount {
+        font-weight: 800;
+        color: #10b981;
+        font-size: 1.1rem;
+    }
+
+    .btn-details {
+        background: #eef2ff;
+        color: #4f46e5;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-decoration: none !important;
+        transition: 0.3s;
+    }
+
+    .btn-details:hover {
+        background: #4f46e5;
+        color: white;
+    }
+
+    .provider-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .provider-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+    }
+</style>
+
+<div class="content-card">
+    <div class="card-title">
+        <span><i class="fa fa-money mr-2 text-warning"></i> Provider Revenue Report</span>
+        <button class="btn btn-sm btn-outline-warning" onclick="window.print()">
+            <i class="fa fa-print mr-1"></i> Export PDF
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table-pluto">
+            <thead>
+                <tr>
+                    <th>Service Provider</th>
+                    <th>Jobs Completed</th>
+                    <th>Total Revenue</th>
+                    <th class="text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in report %}
+                <tr>
+                    <td>
+                        <div class="provider-meta">
+                            {% if item.provider.image %}
+                            <img src="{{ item.provider.image.url }}" class="provider-img">
+                            {% else %}
+                            <div class="provider-img d-flex align-items-center justify-content-center bg-light">
+                                <i class="fa fa-university text-muted"></i>
+                            </div>
+                            {% endif %}
+                            <div>
+                                <div class="font-weight-bold">{{ item.provider.name }}</div>
+                                <div class="small text-muted">ID: #PROV-{{ item.provider.id }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-pill badge-light border px-3">
+                            {{ item.job_count }} Transactions
+                        </span>
+                    </td>
+                    <td>
+                        <span class="revenue-amount">₹{{ item.total_revenue|floatformat:2 }}</span>
+                    </td>
+                    <td class="text-right">
+                        <a href="/admin/ViewProviderWorkers?id={{ item.provider.id }}" class="btn-details">
+                            <i class="fa fa-users mr-1"></i> View Workers
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        No financial data available yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

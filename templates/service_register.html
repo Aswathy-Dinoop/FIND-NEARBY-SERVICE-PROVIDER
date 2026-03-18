@@ -1,165 +1,384 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('https://png.pngtree.com/background/20220718/original/pngtree-register-now-blue-banner-picture-image_1661529.jpg');" data-stellar-background-ratio="0.5">
-      <!-- <div class="overlay"></div> -->
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Registration Page<i class="fa fa-chevron-right"></i></span></p>
-            <h1 style="color: black;" class="mb-0 bread">Service Provider Register Here</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-		<!-- <section class="ftco-section bg-light"> -->
-			<!-- <div class="container"> -->
-				<div class="row justify-content-center">
-					<div class="col-md-12">
-						<div class="wrapper">
-							<div class="row mb-5">
-								<div class="col-md-3">
-									<div class="dbox w-100 text-center">
-				        		
-				        		<div class="text">
-					          </div>
-				          </div>
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Service Provider Register Here</h3>
-										<div id="form-message-warning" class="mb-4"></div> 
-					      		
-										<form method="POST" id="contactForm" name="contactForm" class="contactForm" enctype="multipart/form-data">
-											{% csrf_token %}
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-														<label class="label" for="name">Full Name</label>
-														<input type="text" class="form-control" name="name" id="name" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = ''" autocomplete="off" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" required>
-													</div>
-												</div>
-												<div class="col-md-6"> 
-													<div class="form-group">
-														<label class="label" for="email">Email Address</label>
-														<input type="email" class="form-control" name="email" id="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="number">Contact Number</label>
-														<input type="text" class="form-control" name="number" id="number" placeholder="Contact Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" pattern="[6-9]{1}[0-9]{5}[0-9]{4}" title="Enter 10 digit number" required>
-													</div>
-												</div>
-												<!-- <div class="col-md-12">
-													<div class="form-group">
-												<label class="label" for="subject">Department</label>
-												<span>Department</span>
-													
-													<select id="dept" name="dept" >
-														<option selected>Choose your Department</option>
-														{% for i in dept %}
-														
-														<option value="{{i.id}}">{{i.department}} </option>
-													{% endfor %}
-													</select>
-												</label>
-												</div>
-												</div> -->
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="image">Image</label>
-														<input type="file" class="form-control" name="image" id="image" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="regnum">Registration Number</label>
-														<input type="text" class="form-control" name="regnum" id="myInput" placeholder="Enter Your Service Number" onblur="validateInput()" required>
-													</div>
-												</div>
-												<!-- <div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="district">District</label>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
-														<select id="district" name="district" class="form-control px-3 py-6" required>
-															<option value="" disabled selected>Select District</option>
-															
-															<option value="Trivandrum">Trivandrum</option>
-															<option value="Kollam">Kollam</option>
-															<option value="Pathanamthitta">Pathanamthitta</option>
-															<option value="Alappuzha">Alappuzha</option>
-															<option value="Kottayam">Kottayam</option>
-															<option value="Idukki">Idukki</option>
-															<option value="Ernakulam">Ernakulam</option>
-															<option value="Thrissur">Thrissur</option>
-															<option value="Palakkad">Palakkad</option>
-															<option value="Malappuram">Malappuram</option>
-															<option value="Kozhikode">Kozhikode</option>
-															<option value="Wayanad">Wayanad</option>
-															<option value="Kannur">Kannur</option>
-															<option value="Kasaragod">Kasaragod</option>
-												
-														  </select>
-													</div>
-												</div> -->
-												<div class="col-md-12">
-													<div class="form-group">
-														<label class="label" for="address">Password</label>
-														<input type="password" class="form-control" name="password" id="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" pattern = "[0-9]).{1,}[a-z]).{1,}[A-Z]).{8,}" title="Eight or more characters" required>
-													</div>
-												</div>
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Register Here" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-												
-											</div>
-										</form>
-									</div>
-								</div>
-								<div class="col-md-5 d-flex align-items-stretch">
-									<div class="info-wrap w-100 p-5 img" style="background-image: url({% static 'images/about.jpg' %});">
-				          </div>
-								</div>
-							</div>
+	:root {
+		--servicer-gradient: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+		--glass-bg: rgba(255, 255, 255, 0.9);
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+	}
+
+	.signup-page {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 130px 20px 80px 20px;
+		background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)),
+			url('https://images.unsplash.com/photo-1581092921461-eab62e92c859?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.signup-container {
+		width: 100%;
+		max-width: 950px;
+		display: flex;
+		background: var(--glass-bg);
+		backdrop-filter: blur(20px);
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+		animation: slideUp 0.6s ease-out;
+	}
+
+	@keyframes slideUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.signup-info {
+		flex: 1;
+		background: var(--servicer-gradient);
+		padding: 60px 40px;
+		color: white;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	@media (min-width: 992px) {
+		.signup-info {
+			display: flex;
+		}
+	}
+
+	.signup-info h2 {
+		font-family: 'Outfit', sans-serif;
+		font-weight: 800;
+		font-size: 2.5rem;
+		margin-bottom: 20px;
+		line-height: 1.1;
+	}
+
+	.signup-info p {
+		font-size: 1.1rem;
+		opacity: 0.9;
+		margin-bottom: 35px;
+		line-height: 1.6;
+	}
+
+	.signup-form-section {
+		flex: 1.3;
+		padding: 50px 45px;
+		background: white;
+	}
+
+	.signup-form-section h3 {
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 10px;
+		font-size: 1.8rem;
+	}
+
+	.subtitle {
+		color: var(--text-muted);
+		margin-bottom: 35px;
+		font-size: 1rem;
+	}
+
+	.form-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+	}
+
+	@media (max-width: 576px) {
+		.form-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.input-group-premium {
+		margin-bottom: 20px;
+		position: relative;
+	}
+
+	.full-width {
+		grid-column: span 2;
+	}
+
+	@media (max-width: 576px) {
+		.full-width {
+			grid-column: span 1;
+		}
+	}
+
+	.input-group-premium label {
+		display: block;
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		margin-bottom: 8px;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.input-wrapper i {
+		position: absolute;
+		left: 16px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #94a3b8;
+		transition: 0.3s;
+	}
+
+	.form-control-premium {
+		width: 100%;
+		padding: 14px 50px 14px 45px;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		font-size: 1rem;
+		color: var(--text-main);
+		transition: all 0.3s;
+		background: #f8fafc;
+	}
+
+	.form-control-premium:focus {
+		border-color: #0ea5e9;
+		background: white;
+		box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+		outline: none;
+	}
+
+	.form-control-premium:focus+i {
+		color: #0ea5e9;
+	}
+
+	.file-input-wrapper {
+		border: 2px dashed #e2e8f0;
+		border-radius: 12px;
+		padding: 10px;
+		background: #f8fafc;
+		transition: 0.3s;
+	}
+
+	.file-input-wrapper:hover {
+		border-color: #0ea5e9;
+		background: #f0f9ff;
+	}
+
+	.btn-signup-premium {
+		width: 100%;
+		padding: 16px;
+		background: var(--servicer-gradient);
+		color: white;
+		border: none;
+		border-radius: 12px;
+		font-weight: 700;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: all 0.3s;
+		margin-top: 10px;
+		box-shadow: 0 10px 15px -3px rgba(3, 105, 161, 0.3);
+	}
+
+	.btn-signup-premium:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 25px -5px rgba(3, 105, 161, 0.4);
+	}
+
+	.login-link {
+		text-align: center;
+		margin-top: 25px;
+		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+
+	.login-link a {
+		color: #0ea5e9;
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.feature-item {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		margin-bottom: 25px;
+	}
+
+	.feature-icon {
+		width: 36px;
+		height: 36px;
+		background: rgba(255, 255, 255, 0.15);
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.1rem;
+	}
+
+	.password-toggle {
+		position: absolute;
+		right: 16px !important;
+		left: auto !important;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: #94a3b8;
+		font-size: 18px;
+		transition: 0.3s;
+		z-index: 10;
+	}
+
+	.password-toggle:hover {
+		color: #0ea5e9;
+	}
+</style>
+
+<div class="signup-page">
+	<div class="signup-container">
+		<!-- Partner Benefits Panel -->
+		<div class="signup-info">
+			<h2>Partner With Us</h2>
+			<p>Grow your business and reach thousands of customers in your area. Join the leading on-demand service
+				platform today.</p>
+
+			<div class="feature-item">
+				<div class="feature-icon"><i class="fa fa-line-chart"></i></div>
+				<span>Expand Your Local Reach</span>
+			</div>
+			<div class="feature-item">
+				<div class="feature-icon"><i class="fa fa-calendar-check-o"></i></div>
+				<span>Flexible Work Schedule</span>
+			</div>
+			<div class="feature-item">
+				<div class="feature-icon"><i class="fa fa-credit-card"></i></div>
+				<span>Secured and Fast Payments</span>
+			</div>
+			<div class="feature-item">
+				<div class="feature-icon"><i class="fa fa-briefcase"></i></div>
+				<span>Professional Profile Tools</span>
+			</div>
+		</div>
+
+		<!-- Form Section -->
+		<div class="signup-form-section">
+			<h3>Provider Registration</h3>
+			<p class="subtitle">Enter your business details to start the verification process.</p>
+
+			{% if message %}
+			<div
+				style="background: #fee2e2; color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 25px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;">
+				<i class="fa fa-exclamation-circle"></i> {{ message }}
+			</div>
+			{% endif %}
+
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="form-grid">
+					<!-- Name -->
+					<div class="input-group-premium">
+						<label for="name">Business/Full Name</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="name" id="name"
+								placeholder="John Professional" required>
+							<i class="fa fa-user"></i>
 						</div>
 					</div>
-					
+
+					<!-- Email -->
+					<div class="input-group-premium">
+						<label for="email">Business Email</label>
+						<div class="input-wrapper">
+							<input type="email" class="form-control-premium" name="email" id="email"
+								placeholder="contact@biz.com" required>
+							<i class="fa fa-envelope"></i>
+						</div>
+					</div>
+
+					<!-- Phone -->
+					<div class="input-group-premium">
+						<label for="number">Mobile Number</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="number" id="number"
+								placeholder="10 Digit Number" pattern="[6-9]{1}[0-9]{9}" required>
+							<i class="fa fa-phone"></i>
+						</div>
+					</div>
+
+					<!-- Reg Num -->
+					<div class="input-group-premium">
+						<label for="regnum">License / Registration No.</label>
+						<div class="input-wrapper">
+							<input type="text" class="form-control-premium" name="regnum" id="regnum"
+								placeholder="SRV-123456" required>
+							<i class="fa fa-id-card-o"></i>
+						</div>
+					</div>
+
+					<!-- Profile Image -->
+					<div class="input-group-premium full-width">
+						<label for="image">Professional Profile Photo</label>
+						<div class="file-input-wrapper">
+							<input type="file" class="form-control-premium"
+								style="padding-left: 15px; border: none; background: transparent;" name="image"
+								id="image" accept="image/*" required>
+						</div>
+					</div>
+
+					<!-- Password -->
+					<div class="input-group-premium full-width">
+						<label for="password">Security Password</label>
+						<div class="input-wrapper">
+							<input type="password" class="form-control-premium" name="password" id="password"
+								placeholder="••••••••" required minlength="8">
+							<i class="fa fa-lock"></i>
+							<i class="fa fa-eye-slash password-toggle" id="togglePassword"></i>
+						</div>
+					</div>
 				</div>
-			</div>
-		</section>
-		<script>
-			function validateInput() {
-				var input = document.getElementById('myInput');
-				if (input.value.trim() !== input.value) {
-					alert('Leading white space is not allowed!');
-					input.value = input.value.trim(); // Remove leading white space
-					input.focus(); // Set focus back to the input field
-				}
-			}
-		  </script>
 
-    
-	{% endblock %}
+				<button type="submit" class="btn-signup-premium">Register as Provider</button>
 
-  
+				<div class="login-link">
+					Already an approved partner? <a href="{% url 'login' %}">Sign In</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	const togglePassword = document.querySelector('#togglePassword');
+	const password = document.querySelector('#password');
+
+	togglePassword.addEventListener('click', function (e) {
+		const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		password.setAttribute('type', type);
+		this.classList.toggle('fa-eye');
+		this.classList.toggle('fa-eye-slash');
+	});
+</script>
+{% endblock %}

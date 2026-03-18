@@ -1,85 +1,234 @@
-
-
 {% extends 'customer/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/work-2.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/customer">Home <i class="fa fa-chevron-right"></i></a></span> <span>My Payment<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">My Payment</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">My Payment</h3>
-		<div class="card">
-				
-				<div class="heading-elements">
-					
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
+
+	:root {
+		--primary: #6366f1;
+		--success: #10b981;
+		--warning: #f59e0b;
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+		--bg-light: #f8fafc;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 10px;
+	}
+
+	.payment-container {
+		padding: 60px 0 100px;
+		background: var(--bg-light);
+		min-height: 70vh;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.payment-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+		gap: 30px;
+		animation: fadeIn 0.8s ease-out;
+	}
+
+	@media (max-width: 576px) {
+		.payment-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.payment-card {
+		background: white;
+		border-radius: 24px;
+		padding: 30px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.payment-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+	}
+
+	.payment-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 25px;
+	}
+
+	.service-meta h4 {
+		font-weight: 800;
+		color: var(--text-main);
+		margin: 0;
+		font-size: 1.25rem;
+	}
+
+	.service-meta span {
+		font-size: 0.85rem;
+		color: var(--primary);
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	.amount-display {
+		text-align: right;
+	}
+
+	.amount-display .price {
+		display: block;
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: var(--text-main);
+	}
+
+	.amount-display .label {
+		font-size: 0.7rem;
+		font-weight: 700;
+		color: var(--text-muted);
+		text-transform: uppercase;
+	}
+
+	.payment-body {
+		background: #f8fafc;
+		border-radius: 16px;
+		padding: 20px;
+		margin-bottom: 25px;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 15px;
+	}
+
+	.info-node label {
+		display: block;
+		font-size: 0.7rem;
+		font-weight: 700;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		margin-bottom: 4px;
+	}
+
+	.info-node p {
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--text-main);
+		margin: 0;
+	}
+
+	.btn-pay-now {
+		width: 100%;
+		padding: 16px;
+		background: var(--primary);
+		color: white;
+		border: none;
+		border-radius: 14px;
+		font-weight: 700;
+		font-size: 1.05rem;
+		text-align: center;
+		text-decoration: none;
+		transition: 0.3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.btn-pay-now:hover {
+		background: #4f46e5;
+		box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+		color: white;
+	}
+
+	.empty-state {
+		grid-column: 1 / -1;
+		text-align: center;
+		padding: 100px 40px;
+		color: var(--text-muted);
+	}
+
+	.empty-state i {
+		font-size: 4rem;
+		opacity: 0.2;
+		margin-bottom: 20px;
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Pending Payments</h1>
+		<p>Complete your transactions for services rendered and professionals hired.</p>
+	</div>
+</div>
+
+<div class="payment-container">
+	<div class="container">
+		<div class="payment-grid">
+			{% for i in rqst %}
+			<div class="payment-card">
+				<div class="payment-header">
+					<div class="service-meta">
+						<span>{{ i.services.department.service_name }}</span>
+						<h4>{{ i.services.name }}</h4>
+					</div>
+					<div class="amount-display">
+						<span class="label">Due Amount</span>
+						<span class="price">₹{{ i.amount|default:i.services.price }}</span>
+					</div>
 				</div>
-			<div class="card-content collapse show">
-				
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>Staff Name</th>
-                                <th>Which Services</th>
-                                
-                                <th>Service Provider Info</th>
-                                <th>Status</th>
-                                <th>Payment</th>
-                                
-								<!-- <th>Update/Remove</th> -->
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in rqst %}
-							<tr>
-								<td>{{i.services.name}}</td>
-                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
-                                <td>{{i.services.department.service_name}}</td>
-                                <!-- <td>{{i.user.phone}}</td> -->
-                                <td>{{i.provider.name}}</td>
-                                <td>{{i.workstatus}}</td>
-								 <td><a href="{% url 'Paymentcheckout' i.id %}"><button class="btn-success">Pay</button></a> 
-                                <!-- <a style="margin-left: 10px;" href="Reject?id={{i.id}}"><button class="btn-danger">Reject</button></a> -->
-                                </td> 
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+
+				<div class="payment-body">
+					<div class="info-node">
+						<label>Service Provider</label>
+						<p>{{ i.provider.name }}</p>
+					</div>
+					<div class="info-node">
+						<label>Work Status</label>
+						<p><i class="fa fa-info-circle mr-2 text-warning"></i> {{ i.workstatus }}</p>
+					</div>
 				</div>
+
+				<a href="{% url 'Paymentcheckout' i.id %}" class="btn-pay-now">
+					<i class="fa fa-credit-card"></i> Proceed to Checkout
+				</a>
 			</div>
+			{% empty %}
+			<div class="empty-state">
+				<i class="fa fa-check-circle-o"></i>
+				<h3>All paid up!</h3>
+				<p>You have no pending payments at this time. Thank you for using our services!</p>
+			</div>
+			{% endfor %}
 		</div>
 	</div>
-				</div>
-			</div>
-	{% endblock %}
+</div>
 
-  
+{% endblock %}

@@ -2,70 +2,152 @@
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/addser.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Add Services <i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Add Services</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-7">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Add Services</h3>
-										<!-- <div id="form-message-warning" class="mb-4"></div>  -->
-					      		<!-- <div id="form-message-success" class="mb-4">
-					            Your message was sent, thank you!
-					      		</div> -->
-										<form action="" method="POST" id="contactForm" name="contactForm" class="contactForm">
-											{% csrf_token %}
-                                            <div class="row">
-												<div class="col-md-10">
-													<div class="form-group">
-														<label class="label" for="name">Add Service Name</label>
-														<input type="text" class="form-control" name="name" id="name" placeholder="Add Service Name">
-													</div>
-												</div>
-												
-												<div class="col-md-12">
-													<div class="form-group">
-														<input type="submit" value="Add Service" class="btn btn-primary">
-														<div class="submitting"></div>
-													</div>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-								
-								</div>
-							</div>
-						</div>
-					</div>
-					
+<style>
+	.pluto-breadcrumb {
+		background: white;
+		padding: 15px 25px;
+		border-radius: 4px;
+		margin-bottom: 25px;
+		box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+		font-weight: 700;
+		color: #333;
+	}
+
+	.content-card {
+		background: white;
+		border-radius: 4px;
+		box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+		padding: 30px;
+		margin-bottom: 30px;
+	}
+
+	.card-title {
+		font-weight: 700;
+		margin-bottom: 25px;
+		color: #333;
+		border-bottom: 1px solid #f1f5f9;
+		padding-bottom: 15px;
+	}
+
+	.form-control-pluto {
+		border-radius: 4px;
+		padding: 12px 15px;
+		border: 1px solid #e2e8f0;
+		font-size: 0.95rem;
+	}
+
+	.form-control-pluto:focus {
+		border-color: #ff9800;
+		box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+	}
+
+	.btn-pluto {
+		background: #ff9800;
+		color: white;
+		border: none;
+		padding: 12px 30px;
+		border-radius: 4px;
+		font-weight: 700;
+		transition: 0.3s;
+	}
+
+	.btn-pluto:hover {
+		background: #f57c00;
+		transform: translateY(-2px);
+		color: white;
+	}
+
+	.table-pluto {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.table-pluto th {
+		background: #f8fafc;
+		padding: 15px;
+		text-align: left;
+		color: #64748b;
+		font-weight: 700;
+		font-size: 0.85rem;
+		text-transform: uppercase;
+	}
+
+	.table-pluto td {
+		padding: 15px;
+		border-bottom: 1px solid #f1f5f9;
+		font-size: 0.95rem;
+	}
+
+	.action-badge {
+		background: #fee2e2;
+		color: #ef4444;
+		width: 32px;
+		height: 32px;
+		border-radius: 4px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.3s;
+	}
+
+	.action-badge:hover {
+		background: #ef4444;
+		color: white;
+	}
+</style>
+
+<div class="row">
+	<div class="col-md-5">
+		<div class="content-card">
+			<h5 class="card-title"><i class="fa fa-plus-circle mr-2 text-warning"></i> Add New Category</h5>
+			<form action="" method="POST">
+				{% csrf_token %}
+				<div class="form-group mb-4">
+					<label class="small font-weight-bold text-muted">Category Name</label>
+					<input type="text" class="form-control form-control-pluto" name="name"
+						placeholder="e.g. Home Cleaning, Electrician" required>
 				</div>
+				<button type="submit" class="btn btn-pluto w-100">
+					<i class="fa fa-save mr-2"></i> Register Category
+				</button>
+			</form>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<div class="content-card">
+			<h5 class="card-title"><i class="fa fa-list mr-2 text-warning"></i> Active Categories</h5>
+			<div class="table-responsive">
+				<table class="table-pluto">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Category Name</th>
+							<th class="text-right">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for service in services %}
+						<tr>
+							<td class="text-muted">{{ forloop.counter }}</td>
+							<td class="font-weight-bold">{{ service.service_name }}</td>
+							<td class="text-right">
+								<a href="remove_service?id={{ service.id }}"
+									onclick="return confirm('Delete this category?')" class="action-badge">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="3" class="text-center py-4 text-muted">No categories registered yet.</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
-		</section>
+		</div>
+	</div>
+</div>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

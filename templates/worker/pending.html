@@ -1,103 +1,244 @@
-
-
 {% extends 'worker/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/11.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>Pending Works<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">Pending Works</h1>
-          </div>
-        </div>
-      </div>
-    </section>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
 
-			<div class="container">
+	:root {
+		--primary: #f59e0b;
+		--indigo: #6366f1;
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+		--bg-light: #f8fafc;
+	}
 
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1581578731548-c64695cc6958?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
 
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 10px;
+	}
+
+	.content-container {
+		padding: 60px 0;
+		background: var(--bg-light);
+		min-height: 70vh;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.task-card {
+		background: white;
+		border-radius: 24px;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+		padding: 40px;
+		animation: fadeIn 0.8s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.table-custom {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0 12px;
+	}
+
+	.table-custom th {
+		padding: 15px 20px;
+		font-weight: 700;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		border-bottom: 2px solid #f1f5f9;
+	}
+
+	.table-custom td {
+		padding: 20px;
+		background: white;
+		vertical-align: middle;
+		border-top: 1px solid #f1f5f9;
+		border-bottom: 1px solid #f1f5f9;
+	}
+
+	.table-custom td:first-child {
+		border-left: 1px solid #f1f5f9;
+		border-radius: 12px 0 0 12px;
+	}
+
+	.table-custom td:last-child {
+		border-right: 1px solid #f1f5f9;
+		border-radius: 0 12px 12px 0;
+	}
+
+	.user-meta {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.user-meta .name {
+		font-weight: 700;
+		color: var(--text-main);
+	}
+
+	.user-meta .info {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+	}
+
+	.badge-pending {
+		background: #fffbeb;
+		color: #d97706;
+		padding: 5px 12px;
+		border-radius: 20px;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.status-form {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+	}
+
+	.select-premium {
+		padding: 8px 12px;
+		border-radius: 10px;
+		border: 2px solid #e2e8f0;
+		background: #f8fafc;
+		font-weight: 600;
+		color: var(--text-main);
+		outline: none;
+		transition: 0.3s;
+		font-size: 0.85rem;
+	}
+
+	.select-premium:focus {
+		border-color: var(--indigo);
+	}
+
+	.btn-submit-task {
+		background: var(--indigo);
+		color: white;
+		border: none;
+		padding: 9px 15px;
+		border-radius: 10px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: 0.3s;
+	}
+
+	.btn-submit-task:hover {
+		background: #4f46e5;
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 60px;
+		color: var(--text-muted);
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Pending Works</h1>
+		<p>Keep track of tasks that currently have a 'Pending' status.</p>
+	</div>
+</div>
+
+<div class="content-container">
+	<div class="container">
+		<div class="task-card">
+			<div class="mb-5">
+				<h3 style="font-weight: 700;">Work Queue</h3>
+				<p class="text-muted small">The following works are currently marked as pending. Be sure to update them
+					once completed.</p>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table-custom">
+					<thead>
+						<tr>
+							<th>Customer Details</th>
+							<th>Location</th>
+							<th>Service Type</th>
+							<th>Current Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in xyz %}
+						<tr>
+							<td>
+								<div class="user-meta">
+									<span class="name">{{ i.request.user.user.first_name }}</span>
+									<span class="info"><i class="fa fa-phone mr-1"></i> {{ i.request.user.phone }}</span>
 								</div>
-
+							</td>
+							<td>
+								<div class="small text-muted" style="max-width: 200px;">
+									<i class="fa fa-map-marker mr-1 text-primary"></i> {{ i.request.user.address }}
 								</div>
-
-
+							</td>
+							<td>
+								<div class="font-weight-bold" style="color: var(--indigo);">
+									{{ i.services.department.service_name }}
 								</div>
-
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">Pending Works</h3>
-		<div class="card">
-
-				<div class="heading-elements">
-
-				</div>
-			<div class="card-content collapse show">
-
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-
-								<th>User</th>
-<!--                                <th>Which Services</th>-->
-<!--								<th>Worker</th>-->
-                                <th>User Contact Number</th>
-                                <th>Location</th>
-								<th>Which Service</th>
-								<!-- <th>Work Status</th> -->
-<!--                                <th>Status</th>-->
-                                <!-- <th>City</th> -->
-
-<!--								<th>Assign</th>-->
-
-
-
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in xyz %}
-							<tr>
-								<td>{{i.request.user.user.first_name}}</td>
-                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
-<!--                                <td>{{i.services.department.service_name}}</td>-->
-<!--								<td>{{i.services.name}}</td>-->
-                                <td>{{i.request.user.phone}}</td>
-                                <td>{{i.request.user.address}}</td>
-								<td>{{i.services.department.service_name}}</td>
-								<!-- <form action="" method="post">
+							</td>
+							<td>
+								<form action="" method="post" class="status-form">
 									{% csrf_token %}
-							
-								<td>
-									<select name="workstatus">
-										<option selected="Select Work Status">Select Work Status</option>
-									   
-											<option value="Completed">Completed</option>
-											<option value="Pending">Pending</option>
-											<option value="Shifted to Workshop">Shifted to Workshop</option>
 									<input type="hidden" name="id" value="{{ i.id }}">
-									<button class="btn btn-success" type="submit">Submit</button></td></form>
-									</select> 
-								</td>  
-								 -->
-<!--                                <td>{{i.status}}</td>-->
-<!--								<td><a href="assign?id={{i.services.id}}&&id2={{i.id}}"><button class="btn-success">Assign</button></a>-->
-                                </td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
+									<select name="workstatus" class="select-premium" required>
+										<option value="Pending" selected>Pending</option>
+										<option value="Completed">Completed</option>
+									</select>
+									<button type="submit" class="btn-submit-task">
+										<i class="fa fa-check"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="4">
+								<div class="empty-state">
+									<i class="fa fa-coffee fa-3x mb-3" style="opacity: 0.2;"></i>
+									<h4>Relax! No pending works</h4>
+									<p>You have no works currently marked as pending.</p>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-				</div>
-			</div>
-	{% endblock %}
+</div>
 
+{% endblock %}

@@ -24,7 +24,10 @@ class view_works(LoginRequiredMixin,TemplateView):
         reg = Assign.objects.get(id=id1)
         se=reg.request_id
         abc=Requests.objects.get(id=se)
-        abc.status='Work Completed'
+        if workstatus == 'Completed':
+            abc.status = 'Work Completed'
+        else:
+            abc.status = workstatus
         abc.save()
         reg.workstatus = workstatus
         reg.status = "status updated"
@@ -57,11 +60,26 @@ class pendingworks(LoginRequiredMixin,TemplateView):
     template_name='worker/pending.html'
     def get_context_data(self, **kwargs):
         abc=Services.objects.get(user_id=self.request.user.id)
-        xyz=Assign.objects.filter(services_id=abc.id,workstatus='pending')
+        xyz=Assign.objects.filter(services_id=abc.id,workstatus='Pending')
         context={
             'xyz':xyz
         }
         return context
+    def post(self, request, *args, **kwargs):
+        id1 = request.POST['id']
+        workstatus = request.POST['workstatus']
+        reg = Assign.objects.get(id=id1)
+        se = reg.request_id
+        abc = Requests.objects.get(id=se)
+        if workstatus == 'Completed':
+            abc.status = 'Work Completed'
+            reg.workstatus = 'Completed'
+        else:
+            abc.status = workstatus
+            reg.workstatus = workstatus
+        abc.save()
+        reg.save()
+        return redirect('worker:pending')
 
 class ViewFb(LoginRequiredMixin,TemplateView):
     template_name='worker/viewfb.html'

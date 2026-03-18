@@ -139,7 +139,7 @@ class UpdateProfile(LoginRequiredMixin,TemplateView):
 
         phone = request.POST['number']
         regnum = request.POST['regnum']
-        image = request.FILES['iamge']
+        image = request.FILES['image']
         # district = request.POST['district']
         ob=FileSystemStorage()
         obj=ob.save(image.name, image)
@@ -194,6 +194,7 @@ class assign(View):
         gg.status='assigned'
         
         gg.save()
+        rq.user_id = gg.user_id
         rq.services_id=id
         rq.request_id = id2
         rq.provider_id = pro.id

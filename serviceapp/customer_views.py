@@ -5,6 +5,8 @@ from serviceapp.models import Services,Add_Services,Registration,Requests,Servic
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+import datetime
+
 
 class index(LoginRequiredMixin,TemplateView):
     template_name='customer/index.html'
@@ -112,7 +114,28 @@ class myrequests(LoginRequiredMixin,TemplateView):
 
         pro = Requests.objects.filter(user_id=pro.id)
         context['rqst'] = pro
+        context['today'] = datetime.date.today().strftime('%Y-%m-%d')
         return context
+
+class CancelRequest(View):
+    def dispatch(self, request, *args, **kwargs):
+        id = self.request.GET['id']
+        rq = Requests.objects.get(id=id)
+        
+        # If the service was marked as Booked, revert it to Available
+        if rq.services:
+            rq.services.status = 'Available'
+            rq.services.save()
+            
+        rq.status = 'Cancelled'
+        rq.save()
+        
+        # If there's an assignment for this request, mark it as cancelled too
+        Assign.objects.filter(request_id=id).update(status='Cancelled', workstatus='Cancelled')
+        
+        return redirect('/user/myrequests')
+
+
 class Performance(LoginRequiredMixin,TemplateView):
     template_name='customer/feedback.html'
     def get_context_data(self, **kwargs):

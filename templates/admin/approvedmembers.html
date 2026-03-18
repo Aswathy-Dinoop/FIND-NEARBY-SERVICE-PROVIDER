@@ -1,107 +1,176 @@
-
-
 {% extends 'admin/base.html' %}
 {% load static %}
 {% block content %}
-{% if message %}
-<script>
-alert("{{ message }}")
-</script>
-{% endif %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/servicer.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>View Approved Service Providers<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">View Approved Service Providers</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
-								</div>
-								
-								</div>
-								
-				          
-								</div>
-								
-				          </div>
-								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">View Approved Service Providers</h3>
-									<!-- Bordered table start -->
-<!-- <h1 style="margin-left: 350px; font-size: 40px;"class="card-title"></h1><br> -->
+<style>
+	.content-card {
+		background: white;
+		border-radius: 4px;
+		box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+		padding: 30px;
+		margin-bottom: 30px;
+	}
 
-<!-- <div class="row"> -->
-	<!-- <div style="margin-left: 100px;" class="col-10"> -->
-		<div class="card">
-			<!-- <div class="card-header"> -->
-				
-				<!-- <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a> -->
-				<div class="heading-elements">
-					
-				</div>
-			<div class="card-content collapse show">
-				
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>Servicers Name</th>
-                                <th>Profile</th>
-								<th>Email Id</th>
-								<th>Contact Number</th>
-								<th>Register Number</th>
-								<th>Action</th>
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in view_approve_servicers %}
-							<tr>
-								<td>{{i.name}}</td>
-                                <td><img style="height: 50px; width: 50px;" src={{i.image.url}}></td>
-								<td>{{i.email}}</td>
-								<td>{{i.phone}}</td>
-								<td>{{i.regnum}}</td>
+	.card-title {
+		font-weight: 700;
+		margin-bottom: 25px;
+		color: #333;
+		border-bottom: 1px solid #f1f5f9;
+		padding-bottom: 15px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-								<!-- <td><a style="margin-left: 10px;" href="ApproveServiceProviders?id={{i.user_id}}"><button class="btn-success">Approve</button></a> -->
-                                    <td><a style="margin-left: 10px;" href="RemoveSP?id={{i.user_id}}"><button class="btn-danger">Remove</button></a>
-                                </td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+	.table-pluto {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.table-pluto th {
+		background: #f8fafc;
+		padding: 15px;
+		text-align: left;
+		color: #64748b;
+		font-weight: 700;
+		font-size: 0.85rem;
+		text-transform: uppercase;
+	}
+
+	.table-pluto td {
+		padding: 15px;
+		border-bottom: 1px solid #f1f5f9;
+		font-size: 0.9rem;
+	}
+
+	.provider-meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.provider-img {
+		width: 40px;
+		height: 40px;
+		border-radius: 4px;
+		object-fit: cover;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.provider-info .name {
+		font-weight: 700;
+		color: #1e293b;
+		display: block;
+	}
+
+	.provider-info .status {
+		font-size: 0.7rem;
+		color: #10b981;
+		font-weight: 800;
+		text-transform: uppercase;
+	}
+
+	.badge-pill-pluto {
+		padding: 4px 10px;
+		border-radius: 4px;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	.badge-email {
+		background: #eff6ff;
+		color: #3b82f6;
+	}
+
+	.badge-phone {
+		background: #f0fdf4;
+		color: #15803d;
+	}
+
+	.action-badge-delete {
+		background: #fee2e2;
+		color: #ef4444;
+		width: 32px;
+		height: 32px;
+		border-radius: 4px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.3s;
+	}
+
+	.action-badge-delete:hover {
+		background: #ef4444;
+		color: white;
+	}
+</style>
+
+<div class="content-card">
+	<div class="card-title">
+		<span><i class="fa fa-certificate mr-2 text-warning"></i> Certified Partner Network</span>
+		<span class="badge badge-success p-2 px-3">{{ view_approve_servicers|length }} Active Partners</span>
 	</div>
-										
-									</div>
-								</div>
-								
-								</div>
+
+	<div class="table-responsive">
+		<table class="table-pluto">
+			<thead>
+				<tr>
+					<th>Partner</th>
+					<th>Contact Records</th>
+					<th>Audit ID</th>
+					<th class="text-right">Manage</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for servicer in view_approve_servicers %}
+				<tr>
+					<td>
+						<div class="provider-meta">
+							<img src="{{ servicer.image.url }}" class="provider-img" alt="{{ servicer.name }}">
+							<div class="provider-info">
+								<span class="name">{{ servicer.name }}</span>
+								<span class="status"><i class="fa fa-check-circle"></i> Audited & Verified</span>
+								<a href="/admin/ViewProviderWorkers?id={{ servicer.id }}"
+									class="small ml-2 text-warning font-weight-bold">View Workers</a>
 							</div>
 						</div>
-					</div>
-					
-				</div>
-			</div>
-		</section>
+					</td>
+					<td>
+						<div class="d-flex flex-column gap-2">
+							<span class="badge-pill-pluto badge-email">
+								<i class="fa fa-envelope mr-1"></i> {{ servicer.email }}
+							</span>
+							<span class="badge-pill-pluto badge-phone">
+								<i class="fa fa-phone mr-1"></i> {{ servicer.phone }}
+							</span>
+						</div>
+					</td>
+					<td>
+						<span class="text-muted small font-weight-bold">
+							<i class="fa fa-id-card-o mr-1"></i> {{ servicer.regnum }}
+						</span>
+					</td>
+					<td class="text-right">
+						<a href="RemoveSP?id={{ servicer.user_id }}"
+							onclick="return confirm('Revoke certification for {{ servicer.name }}? Access will be restricted.')"
+							class="action-badge-delete">
+							<i class="fa fa-trash"></i>
+						</a>
+					</td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="4" class="text-center py-5">
+						<div class="text-muted">
+							<i class="fa fa-star-o fa-3x mb-3 opacity-20"></i>
+							<p>No verified partners found in the network.</p>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 
-    
-	{% endblock %}
-
-  
+{% endblock %}

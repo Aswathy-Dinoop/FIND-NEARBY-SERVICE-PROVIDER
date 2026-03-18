@@ -1,86 +1,259 @@
-
-
 {% extends 'service provider/base.html' %}
 {% load static %}
 {% block content %}
 
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{% static 'images/11.jpg' %}');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text align-items-end">
-          <div class="col-md-9 ftco-animate pb-5">
-          	<p class="breadcrumbs mb-2"><span class="mr-2"><a href="/admin">Home <i class="fa fa-chevron-right"></i></a></span> <span>View Service Requests<i class="fa fa-chevron-right"></i></span></p>
-            <h1 class="mb-0 bread">View Service  Requests</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-		
-			<div class="container">
-				
-								
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
+
+	:root {
+		--primary: #6366f1;
+		--success: #10b981;
+		--warning: #f59e0b;
+		--text-main: #1e293b;
+		--text-muted: #64748b;
+		--bg-light: #f8fafc;
+	}
+
+	.page-header {
+		background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)),
+			url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+		background-size: cover;
+		background-position: center;
+		padding: 100px 0 60px;
+		color: white;
+		text-align: center;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.page-header h1 {
+		font-weight: 800;
+		font-size: 3.5rem;
+		margin-bottom: 10px;
+		letter-spacing: -1px;
+	}
+
+	.content-container {
+		padding: 60px 0;
+		background: var(--bg-light);
+		min-height: 70vh;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.request-card {
+		background: white;
+		border-radius: 24px;
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+		padding: 40px;
+		animation: fadeIn 0.8s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.table-custom {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0 12px;
+	}
+
+	.table-custom th {
+		padding: 15px 20px;
+		font-weight: 700;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		letter-spacing: 0.05em;
+		border-bottom: 2px solid #f1f5f9;
+	}
+
+	.table-custom tr {
+		transition: 0.3s;
+	}
+
+	.table-custom tr:hover td {
+		background: #f8fafc;
+	}
+
+	.table-custom td {
+		padding: 20px;
+		background: white;
+		vertical-align: middle;
+		border-top: 1px solid #f1f5f9;
+		border-bottom: 1px solid #f1f5f9;
+	}
+
+	.table-custom td:first-child {
+		border-left: 1px solid #f1f5f9;
+		border-radius: 12px 0 0 12px;
+	}
+
+	.table-custom td:last-child {
+		border-right: 1px solid #f1f5f9;
+		border-radius: 0 12px 12px 0;
+	}
+
+	.status-badge {
+		padding: 6px 14px;
+		border-radius: 20px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		display: inline-block;
+	}
+
+	.status-pending {
+		background: #fef3c7;
+		color: #d97706;
+	}
+
+	.status-selected {
+		background: #e0e7ff;
+		color: #4338ca;
+	}
+
+	.status-assigned {
+		background: #d1fae5;
+		color: #059669;
+	}
+
+	.user-info {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.user-info .name {
+		font-weight: 700;
+		color: var(--text-main);
+	}
+
+	.user-info .contact {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+	}
+
+	.btn-assign {
+		background: var(--primary);
+		color: white;
+		border: none;
+		padding: 10px 20px;
+		border-radius: 10px;
+		font-weight: 600;
+		transition: 0.3s;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.btn-assign:hover {
+		background: #4f46e5;
+		box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+		transform: translateY(-2px);
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 80px 40px;
+		color: var(--text-muted);
+	}
+
+	.empty-state i {
+		font-size: 4rem;
+		margin-bottom: 20px;
+		opacity: 0.2;
+	}
+</style>
+
+<div class="page-header">
+	<div class="container">
+		<h1>Service Requests</h1>
+		<p>Track and manage client requests for your workers and services.</p>
+	</div>
+</div>
+
+<div class="content-container">
+	<div class="container">
+		<div class="request-card">
+			<div class="mb-5">
+				<h3 style="font-weight: 700;">Incoming Requests</h3>
+				<p class="text-muted small">Manage assignments for your service providers based on user interest.</p>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table-custom">
+					<thead>
+						<tr>
+							<th>Client Details</th>
+							<th>Worker / Service</th>
+							<th>Location</th>
+							<th>Status</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in rqst %}
+						<tr>
+							<td>
+								<div class="user-info">
+									<span class="name">{{ i.user.name }}</span>
+									<span class="contact"><i class="fa fa-phone mr-1"></i> {{ i.user.phone }}</span>
 								</div>
-								
+							</td>
+							<td>
+								<div>
+									<div class="font-weight-bold" style="color: var(--primary);">{{ i.services.name }}
+									</div>
+									<div class="small text-muted">{{ i.services.department.service_name }}</div>
 								</div>
-								
-				          
+							</td>
+							<td>
+								<div class="small" style="max-width: 200px;">
+									<i class="fa fa-map-marker text-muted mr-1"></i> {{ i.user.address }}
 								</div>
-								
-				          </div>
+							</td>
+							<td>
+								{% if i.status == 'Selected' %}
+								<span class="status-badge status-selected">New Request</span>
+								{% elif i.status == 'assigned' %}
+								<span class="status-badge status-assigned">Assigned</span>
+								{% else %}
+								<span class="status-badge status-pending">{{ i.status }}</span>
+								{% endif %}
+							</td>
+							<td>
+								{% if i.status == 'Selected' %}
+								<a href="assign?id={{i.services.id}}&&id2={{i.id}}" class="btn-assign">
+									<i class="fa fa-user-plus"></i> Assign Now
+								</a>
+								{% else %}
+								<span class="text-muted small">Already Handled</span>
+								{% endif %}
+							</td>
+						</tr>
+						{% empty %}
+						<tr>
+							<td colspan="5">
+								<div class="empty-state">
+									<i class="fa fa-inbox"></i>
+									<h4>No active requests</h4>
+									<p>When clients choose your services, they will appear here.</p>
 								</div>
-							</div>
-							<div class="row no-gutters">
-								<div class="col-md-10">
-									<div class="contact-wrap w-100 p-md-5 p-4">
-										<h3 class="mb-4">View Service Requests</h3>
-		<div class="card">
-				
-				<div class="heading-elements">
-					
-				</div>
-			<div class="card-content collapse show">
-				
-				<div class="table-responsive">
-					<table class="table table-bordered mb-0">
-						<thead>
-							<tr>
-								
-								<th>User</th>
-                                <th>Which Services</th>
-								<th>Worker</th>
-                                <th>User Contact Number</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <!-- <th>City</th> -->
-                                
-								<th>Assign</th>
-								
-                                
-                               
-							</tr>
-						</thead>
-						<tbody>
-                            {% for i in rqst %}
-							<tr>
-								<td>{{i.user.name}}</td>
-                                <!-- <td><img style="height: 70px; width: 80px;" src="/media/{{i.image}}"></td>    -->
-                                <td>{{i.services.department.service_name}}</td>
-								<td>{{i.services.name}}</td>
-                                <td>{{i.user.phone}}</td>
-                                <td>{{i.user.address}}</td>
-                                <td>{{i.status}}</td>
-								<td><a href="assign?id={{i.services.id}}&&id2={{i.id}}"><button class="btn-success">Assign</button></a>
-                                </td>
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-				</div>
-			</div>
-	{% endblock %}
+</div>
 
-  
+{% endblock %}

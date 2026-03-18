@@ -52,25 +52,44 @@ class user_signup(TemplateView):
 class loginview(TemplateView):
     template_name='login.html'
     def post(self, request, *args, **kwargs):
-        email = request.POST['email']
+        email_or_username = request.POST['email']
         password = request.POST['password']
-        user = authenticate(username=email,password=password)
+        
+        # Try authenticating directly first (works if username is entered)
+        user = authenticate(username=email_or_username, password=password)
+        
+        # If that fails, try finding the user by email first
+        if user is None:
+            try:
+                user_obj = User.objects.get(email=email_or_username)
+                user = authenticate(username=user_obj.username, password=password)
+            except User.DoesNotExist:
+                pass
 
         if user is not None:
             login(request,user)
+            # Check for superuser first
+            if user.is_superuser:
+                return redirect('/admin')
+            
+            # For other users, check if authenticated/approved (using the last_name flag as '1')
             if user.last_name == '1':
-                if user.is_superuser:
-                    return redirect('/admin')
-                elif UserType.objects.get(user_id=user.id).type == "user":
-                    return redirect('/user')
-                elif UserType.objects.get(user_id=user.id).type == "servicer":
-                    return redirect('/servicer')
-                elif UserType.objects.get(user_id=user.id).type == "worker":
-                    return redirect('/worker')
+                try:
+                    user_type_obj = UserType.objects.get(user_id=user.id)
+                    if user_type_obj.type == "user":
+                        return redirect('/user')
+                    elif user_type_obj.type == "servicer":
+                        return redirect('/servicer')
+                    elif user_type_obj.type == "worker":
+                        return redirect('/worker')
+                except UserType.DoesNotExist:
+                    return render(request, 'login.html', {'message': "User profile type not found."})
             else:
-                return render(request, 'login.html', {'message': " User Account Not Authenticated"})
+                return render(request, 'login.html', {'message': "User Account Not Authenticated/Approved"})
         else:
-            return render(request, 'index.html', {'message': "Invalid Username or Password"})
+            return render(request, 'login.html', {'message': "Invalid Username or Password"})
+
+
 class servicer_signup(TemplateView):
     template_name='service_register.html'
     def post(self, request, *args, **kwargs):
